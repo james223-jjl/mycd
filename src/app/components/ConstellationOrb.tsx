@@ -7,8 +7,16 @@ const SPHERE_RADIUS = 5;
 const LINE_COLOR = 0x7B3F9E;
 const NODE_COLOR = 0xAB51C5;
 const SPECIAL_COLOR = 0xAB51C5;
-const SPECIAL_COUNT = 20;
+const SPECIAL_COUNT = 16;
 const CONNECTION_DISTANCE = 3.5;
+const ORBIT_RADIUS = 7;
+
+const EXCHANGE_DATA = [
+  { name: 'Binance', avatar: '/exchanges/binance.svg' },
+  { name: 'OKX', avatar: '/exchanges/okx.svg' },
+  { name: 'Bybit', avatar: '/exchanges/bybit.svg' },
+  { name: 'Bitget', avatar: '/exchanges/bitget.svg' },
+];
 
 const AVATAR_FILES = [33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52];
 
@@ -36,11 +44,6 @@ const TOOLTIP_DATA: TooltipData[] = [
   { type: 'user', name: '@CryptoWhale', avatar: `/avatars/${AVATAR_FILES[0]}.png`, winRate: '78.5%', pnl: '+$245K', volume: '$12.5M', followers: '12.4K', rank: 1 },
   { type: 'user', name: '@DiamondHands', avatar: `/avatars/${AVATAR_FILES[1]}.png`, winRate: '74.2%', pnl: '+$198K', volume: '$9.8M', followers: '8.2K', rank: 2 },
   { type: 'user', name: '@MoonTrader', avatar: `/avatars/${AVATAR_FILES[2]}.png`, winRate: '71.8%', pnl: '+$187K', volume: '$8.4M', followers: '5.7K', rank: 3 },
-  // Exchanges
-  { type: 'exchange', name: 'Binance', avatar: '/exchanges/binance.svg' },
-  { type: 'exchange', name: 'OKX', avatar: '/exchanges/okx.svg' },
-  { type: 'exchange', name: 'Bybit', avatar: '/exchanges/bybit.svg' },
-  { type: 'exchange', name: 'Bitget', avatar: '/exchanges/bitget.svg' },
   // Profitable traders (green glow)
   { type: 'user', name: '@BullMarket', avatar: `/avatars/${AVATAR_FILES[3]}.png`, winRate: '69.3%', pnl: '+$145K', volume: '$7.2M', followers: '4.1K' },
   { type: 'user', name: '@TraderPro', avatar: `/avatars/${AVATAR_FILES[4]}.png`, winRate: '68.7%', pnl: '+$134K', volume: '$6.8M', followers: '3.8K' },
@@ -87,8 +90,12 @@ interface TooltipState {
 
 export function ConstellationOrb() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
   const [tooltip, setTooltip] = useState<TooltipState>({ visible: false, x: 0, y: 0, data: null });
   const [expandedUser, setExpandedUser] = useState<UserProfile | null>(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const isFullscreenRef = useRef(false);
+  const setFullscreen = (v: boolean) => { isFullscreenRef.current = v; setIsFullscreen(v); };
 
   // Auto-dismiss expanded card after 4s, or on any click/tap anywhere
   useEffect(() => {
@@ -118,19 +125,19 @@ export function ConstellationOrb() {
     // Scene setup
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 1000);
-    camera.position.set(0, 0, 14);
+    camera.position.set(0, 0, 18);
+    cameraRef.current = camera;
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setClearColor(0x000000, 0);
+    renderer.domElement.style.touchAction = 'pan-y';
     container.appendChild(renderer.domElement);
 
     // Controls
     const controls = new OrbitControls(camera, renderer.domElement);
-    controls.enableZoom = true;
-    controls.minDistance = 8;
-    controls.maxDistance = 22;
+    controls.enableZoom = false;
     controls.enablePan = false;
     controls.autoRotate = true;
     controls.autoRotateSpeed = 1.2;
@@ -178,18 +185,58 @@ export function ConstellationOrb() {
         img.src = url;
       });
     };
+    // Outer counter-rotating ring for exchanges
+    const orbitGroup = new THREE.Group();
+    orbitGroup.rotation.x = 0.3; // slight tilt
+
+    // Visible ring track
+    const ringCurve = new THREE.EllipseCurve(0, 0, ORBIT_RADIUS, ORBIT_RADIUS, 0, Math.PI * 2, false, 0);
+    const ringPts = ringCurve.getPoints(128);
+    const ringGeo = new THREE.BufferGeometry().setFromPoints(
+      ringPts.map(p => new THREE.Vector3(p.x, 0, p.y))
+    );
+    const ringMat = new THREE.LineBasicMaterial({ color: 0xAB51C5, transparent: true, opacity: 0.1 });
+    orbitGroup.add(new THREE.LineLoop(ringGeo, ringMat));
+
+    // Exchange sprites on the outer ring
+    const orbitBgSprites: THREE.Sprite[] = [];
+    const orbitLogoSprites: THREE.Sprite[] = [];
+
+    EXCHANGE_DATA.forEach(() => {
+      const bgCanvas = document.createElement('canvas');
+      bgCanvas.width = 64;
+      bgCanvas.height = 64;
+      const ctx = bgCanvas.getContext('2d')!;
+      ctx.beginPath();
+      ctx.arc(32, 32, 32, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.85)';
+      ctx.fill();
+      const bgTex = new THREE.CanvasTexture(bgCanvas);
+      const bgMat = new THREE.SpriteMaterial({ map: bgTex, transparent: true, depthTest: false });
+      const bgSprite = new THREE.Sprite(bgMat);
+      bgSprite.scale.set(1.3, 1.3, 1.3);
+      bgSprite.renderOrder = 3;
+      orbitGroup.add(bgSprite);
+      orbitBgSprites.push(bgSprite);
+
+      const logoMat = new THREE.SpriteMaterial({ transparent: true, opacity: 1.0, depthTest: false });
+      const logoSprite = new THREE.Sprite(logoMat);
+      logoSprite.scale.set(0.85, 0.85, 0.85);
+      logoSprite.renderOrder = 4;
+      orbitGroup.add(logoSprite);
+      orbitLogoSprites.push(logoSprite);
+    });
+
     Promise.all([
       loadSvgTexture('/exchanges/binance.svg'),
       loadSvgTexture('/exchanges/okx.svg'),
       loadSvgTexture('/exchanges/bybit.svg'),
       loadSvgTexture('/exchanges/bitget.svg'),
     ]).then(() => {
-      // Re-update sprite materials once textures are ready
-      exchangeSprites.forEach((sprite) => {
-        const data = dataMap.get(sprite.userData.index);
-        if (data && data.type === 'exchange' && exchangeTextures[data.avatar]) {
-          (sprite.material as THREE.SpriteMaterial).map = exchangeTextures[data.avatar];
-          (sprite.material as THREE.SpriteMaterial).needsUpdate = true;
+      EXCHANGE_DATA.forEach((ex, ei) => {
+        if (exchangeTextures[ex.avatar]) {
+          (orbitLogoSprites[ei].material as THREE.SpriteMaterial).map = exchangeTextures[ex.avatar];
+          (orbitLogoSprites[ei].material as THREE.SpriteMaterial).needsUpdate = true;
         }
       });
     });
@@ -203,46 +250,6 @@ export function ConstellationOrb() {
     points.forEach((point, i) => {
       const isSpecial = specialIndices.has(i);
       const data = dataMap.get(i);
-
-      // Exchange nodes: use sprite with logo + dark bg circle
-      if (isSpecial && data && data.type === 'exchange') {
-        // Dark background sprite (renders behind logo but above lines)
-        const bgCanvas = document.createElement('canvas');
-        bgCanvas.width = 64;
-        bgCanvas.height = 64;
-        const ctx = bgCanvas.getContext('2d')!;
-        ctx.beginPath();
-        ctx.arc(32, 32, 32, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.85)';
-        ctx.fill();
-        const bgTex = new THREE.CanvasTexture(bgCanvas);
-        const bgSpriteMat = new THREE.SpriteMaterial({ map: bgTex, transparent: true, depthTest: false });
-        const bgSprite = new THREE.Sprite(bgSpriteMat);
-        bgSprite.position.copy(point);
-        bgSprite.scale.set(1.2, 1.2, 1.2);
-        bgSprite.renderOrder = 1;
-        group.add(bgSprite);
-
-        // Logo sprite on top (texture assigned async after load)
-        const spriteMat = new THREE.SpriteMaterial({ transparent: true, opacity: 1.0, depthTest: false });
-        const sprite = new THREE.Sprite(spriteMat);
-        sprite.position.copy(point);
-        sprite.scale.set(0.75, 0.75, 0.75);
-        sprite.renderOrder = 2;
-        sprite.userData = { index: i, isSpecial: true, targetScale: 1, bgSprite, baseScale: 0.75, baseBgScale: 1.2 };
-        group.add(sprite);
-        // Use a hidden mesh for raycasting
-        const hitGeo = new THREE.SphereGeometry(0.4, 8, 8);
-        const hitMat = new THREE.MeshBasicMaterial({ visible: false });
-        const hitMesh = new THREE.Mesh(hitGeo, hitMat);
-        hitMesh.position.copy(point);
-        hitMesh.userData = { index: i, isSpecial: true, targetScale: 1 };
-        group.add(hitMesh);
-        nodes.push(hitMesh);
-        specialMeshes.push(hitMesh);
-        exchangeSprites.push(sprite);
-        return;
-      }
 
       // User profile nodes: use avatar sprite with glow + dark bg
       if (isSpecial && data && data.type === 'user') {
@@ -435,6 +442,7 @@ export function ConstellationOrb() {
     group.add(new THREE.Mesh(glowGeo, glowMat));
 
     scene.add(group);
+    scene.add(orbitGroup);
 
     // Invisible larger hit targets for touch/click on special nodes
     const hitMeshes: THREE.Mesh[] = [];
@@ -577,8 +585,10 @@ export function ConstellationOrb() {
           return;
         }
       }
-      // Click on empty space — close expanded card
-      setExpandedUser(null);
+      // Click on empty space — open fullscreen
+      if (!isFullscreenRef.current) {
+        setFullscreen(true);
+      }
     };
 
     renderer.domElement.addEventListener('mousemove', onMouseMove);
@@ -592,7 +602,6 @@ export function ConstellationOrb() {
     const animate = () => {
       animId = requestAnimationFrame(animate);
       controls.update();
-
       const time = Date.now() * 0.001;
       nodes.forEach((node) => {
         if (node.userData.isSpecial) {
@@ -626,6 +635,15 @@ export function ConstellationOrb() {
           const gs = currentGlow + (glowBase - currentGlow) * 0.1;
           sprite.userData.glowSprite.scale.set(gs, gs, gs);
         }
+      });
+
+      // Animate outer exchange ring (spins opposite to orb)
+      EXCHANGE_DATA.forEach((_ex, ei) => {
+        const angle = -time * 0.25 + (ei / EXCHANGE_DATA.length) * Math.PI * 2;
+        const x = Math.cos(angle) * ORBIT_RADIUS;
+        const z = Math.sin(angle) * ORBIT_RADIUS;
+        orbitBgSprites[ei].position.set(x, 0, z);
+        orbitLogoSprites[ei].position.set(x, 0, z);
       });
 
       // Depth fade: update line vertex colors based on facing direction
@@ -675,16 +693,59 @@ export function ConstellationOrb() {
     };
   }, []);
 
+  // Trigger renderer resize when fullscreen toggles
+  useEffect(() => {
+    window.dispatchEvent(new Event('resize'));
+  }, [isFullscreen]);
+
   return (
+    <>
+    {isFullscreen && (
+      <div className="fixed inset-0 z-40 bg-black/80 backdrop-blur-sm" onClick={() => setFullscreen(false)} />
+    )}
     <div
       ref={containerRef}
-      className="relative mx-auto aspect-square w-full max-w-[340px] sm:max-w-[500px] lg:max-w-none lg:w-[600px]"
-      style={{ cursor: 'grab' }}
+      className={isFullscreen
+        ? 'fixed inset-4 z-50 rounded-2xl border border-white/10 bg-black'
+        : 'relative mx-auto w-full max-w-[500px] aspect-square sm:max-w-[700px] lg:max-w-none lg:h-[700px]'
+      }
+      style={{ cursor: isFullscreen ? 'grab' : 'pointer' }}
     >
+      {/* Close button in fullscreen */}
+      {isFullscreen && (
+        <button
+          onClick={(e) => { e.stopPropagation(); setFullscreen(false); }}
+          className="absolute right-4 top-4 z-20 flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-[#1a1a1a]/80 text-white/70 backdrop-blur-sm transition-colors hover:bg-white/20 hover:text-white"
+          aria-label="Close"
+        >
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M2 2l10 10M12 2L2 12" /></svg>
+        </button>
+      )}
+
+      {/* Zoom controls in fullscreen */}
+      {isFullscreen && (
+        <div className="absolute bottom-4 right-4 z-20 flex gap-2">
+          <button
+            onClick={(e) => { e.stopPropagation(); if (cameraRef.current) cameraRef.current.position.z = Math.max(8, cameraRef.current.position.z - 2); }}
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-[#1a1a1a]/80 text-white/70 backdrop-blur-sm transition-colors hover:bg-[#AB51C5] hover:text-white"
+            aria-label="Zoom in"
+          >
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M7 3v8M3 7h8" /></svg>
+          </button>
+          <button
+            onClick={(e) => { e.stopPropagation(); if (cameraRef.current) cameraRef.current.position.z = Math.min(28, cameraRef.current.position.z + 2); }}
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-[#1a1a1a]/80 text-white/70 backdrop-blur-sm transition-colors hover:bg-[#AB51C5] hover:text-white"
+            aria-label="Zoom out"
+          >
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M3 7h8" /></svg>
+          </button>
+        </div>
+      )}
+
       {/* Small Tooltip (hover) */}
       {tooltip.visible && tooltip.data && !expandedUser && (
         <div
-          className="pointer-events-none absolute z-10 flex items-center gap-2.5 rounded-lg border border-white/10 bg-[#1a1a1a]/95 px-3 py-2 backdrop-blur-sm"
+          className="pointer-events-none absolute z-10 flex w-max items-center gap-2.5 whitespace-nowrap rounded-lg border border-white/10 bg-[#1a1a1a]/95 px-3 py-2 backdrop-blur-sm"
           style={{
             left: tooltip.x,
             top: tooltip.y - 52,
@@ -753,5 +814,6 @@ export function ConstellationOrb() {
         </div>
       )}
     </div>
+    </>
   );
 }
