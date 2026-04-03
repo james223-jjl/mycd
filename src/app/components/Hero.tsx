@@ -1,15 +1,25 @@
 import { ArrowRight, TrendingUp } from 'lucide-react';
 import { motion } from 'motion/react';
 import { Button } from './ui/button';
-import { StarsBackground } from './StarsBackground';
-import { ConstellationOrb } from './ConstellationOrb';
+import { MeteorEffect } from './MeteorEffect';
+
 
 export function Hero() {
   return (
     <section className="relative overflow-hidden border-b border-border/50 pt-16 pb-20 sm:pt-32">
+      {/* Hero background image */}
+      <div
+        className="absolute inset-0 bg-cover bg-[center_60%] sm:bg-center bg-no-repeat"
+        style={{
+          backgroundImage: 'url(/hero-bg.jpg)',
+          mask: 'linear-gradient(to bottom, transparent 0%, black 15%, black 45%, transparent 75%)',
+          WebkitMask: 'linear-gradient(to bottom, transparent 0%, black 15%, black 45%, transparent 75%)',
+          opacity: 0.35,
+        }}
+      />
       {/* Background gradient glow */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#AB51C5]/10 via-transparent to-transparent" />
-      <div className="absolute top-40 left-1/2 h-96 w-96 -translate-x-1/2 rounded-full bg-[#AB51C5]/20 blur-[120px]" />
+      <div className="absolute top-20 left-1/2 h-[500px] w-[700px] -translate-x-1/2 rounded-full blur-[150px]" style={{ background: 'radial-gradient(circle, rgba(171, 81, 197, 0.3) 0%, rgba(151, 100, 255, 0.15) 40%, rgba(100, 60, 180, 0.06) 70%, transparent 100%)' }} />
 
       <div className="container relative mx-auto px-6">
         <div className="mx-auto max-w-4xl text-center pt-10 sm:pt-16">
@@ -26,10 +36,10 @@ export function Hero() {
 
           <div className="relative overflow-visible py-6">
             {/* xAI-style stars behind title */}
-            <StarsBackground
+            <MeteorEffect
               className="-top-16 sm:-top-32"
-              starDensity={0.0005}
-              style={{ mask: 'radial-gradient(ellipse at center, black 20%, transparent 70%)' }}
+              meteorCount={4}
+              style={{ mask: 'radial-gradient(ellipse at center, black 15%, transparent 65%)' }}
             />
             {/* Color gradient overlay — purple theme */}
             <div
@@ -69,16 +79,6 @@ export function Hero() {
           >
             Track your portfolio, analyze your trading performance, and follow successful traders — all in one place.
           </motion.p>
-
-          {/* Constellation Orb */}
-          <motion.div
-            className="mb-12"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.7 }}
-          >
-            <ConstellationOrb />
-          </motion.div>
 
           {/* CTA Buttons */}
           <motion.div

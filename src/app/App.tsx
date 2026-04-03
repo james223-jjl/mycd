@@ -1,6 +1,7 @@
+import { useState, useEffect } from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
-import { TrustBar } from './components/TrustBar';
+import { ConstellationOrb } from './components/ConstellationOrb';
 import { FeatureSection } from './components/FeatureSection';
 import {
   PortfolioMockup,
@@ -16,9 +17,33 @@ import { Testimonials } from './components/Testimonials';
 import { FinalCTA } from './components/FinalCTA';
 import { Footer } from './components/Footer';
 
+function BackToTop() {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setVisible(window.scrollY > 400);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  if (!visible) return null;
+
+  return (
+    <button
+      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      className="fixed bottom-6 right-6 z-50 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-[#1a1a1a]/90 text-white/70 backdrop-blur-sm transition-all hover:bg-[#AB51C5] hover:text-white lg:hidden"
+      aria-label="Back to top"
+    >
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M8 14V2M2 7l6-5 6 5" />
+      </svg>
+    </button>
+  );
+}
+
 export default function App() {
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen overflow-x-hidden bg-black text-white">
       <Navbar />
 
       <main>
@@ -28,13 +53,13 @@ export default function App() {
         {/* Trust Bar - hidden for now */}
         {/* <TrustBar /> */}
 
-        {/* Core Features Header */}
+        {/* Constellation Orb + Core Features Header */}
         <section className="pt-24 pb-8">
           <div className="container mx-auto px-6 text-center">
             <h2 className="mb-4 mx-auto max-w-4xl bg-gradient-to-b from-white via-white/90 to-white/50 bg-clip-text text-4xl font-bold leading-tight text-transparent md:text-5xl">
               MyCoinDeck unifies all your trading data into one powerful dashboard.
             </h2>
-            <p className="text-sm font-medium uppercase tracking-widest text-[#AB51C5]">Core Features</p>
+            <ConstellationOrb />
           </div>
         </section>
 
@@ -103,6 +128,7 @@ export default function App() {
       </main>
 
       <Footer />
+      <BackToTop />
     </div>
   );
 }

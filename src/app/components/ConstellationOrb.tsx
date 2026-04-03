@@ -4,10 +4,10 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 const POINT_COUNT = 80;
 const SPHERE_RADIUS = 5;
-const LINE_COLOR = 0x333333;
+const LINE_COLOR = 0x7B3F9E;
 const NODE_COLOR = 0xAB51C5;
 const SPECIAL_COLOR = 0xAB51C5;
-const SPECIAL_COUNT = 16;
+const SPECIAL_COUNT = 20;
 const CONNECTION_DISTANCE = 3.5;
 
 const AVATAR_FILES = [33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52];
@@ -20,6 +20,7 @@ interface UserProfile {
   pnl: string;
   volume: string;
   followers: string;
+  rank?: number; // 1-3 = top trader (gold glow)
 }
 
 interface ExchangeInfo {
@@ -31,22 +32,30 @@ interface ExchangeInfo {
 type TooltipData = UserProfile | ExchangeInfo;
 
 const TOOLTIP_DATA: TooltipData[] = [
-  { type: 'user', name: '@CryptoWhale', avatar: `/avatars/${AVATAR_FILES[0]}.png`, winRate: '78.5%', pnl: '+$245K', volume: '$12.5M', followers: '12.4K' },
+  // Top 3 Leaderboard Traders (gold glow)
+  { type: 'user', name: '@CryptoWhale', avatar: `/avatars/${AVATAR_FILES[0]}.png`, winRate: '78.5%', pnl: '+$245K', volume: '$12.5M', followers: '12.4K', rank: 1 },
+  { type: 'user', name: '@DiamondHands', avatar: `/avatars/${AVATAR_FILES[1]}.png`, winRate: '74.2%', pnl: '+$198K', volume: '$9.8M', followers: '8.2K', rank: 2 },
+  { type: 'user', name: '@MoonTrader', avatar: `/avatars/${AVATAR_FILES[2]}.png`, winRate: '71.8%', pnl: '+$187K', volume: '$8.4M', followers: '5.7K', rank: 3 },
+  // Exchanges
   { type: 'exchange', name: 'Binance', avatar: '/exchanges/binance.svg' },
-  { type: 'user', name: '@DiamondHands', avatar: `/avatars/${AVATAR_FILES[1]}.png`, winRate: '74.2%', pnl: '+$198K', volume: '$9.8M', followers: '8.2K' },
   { type: 'exchange', name: 'OKX', avatar: '/exchanges/okx.svg' },
-  { type: 'user', name: '@MoonTrader', avatar: `/avatars/${AVATAR_FILES[2]}.png`, winRate: '71.8%', pnl: '+$187K', volume: '$8.4M', followers: '5.7K' },
   { type: 'exchange', name: 'Bybit', avatar: '/exchanges/bybit.svg' },
-  { type: 'user', name: '@BullMarket', avatar: `/avatars/${AVATAR_FILES[3]}.png`, winRate: '69.3%', pnl: '+$145K', volume: '$7.2M', followers: '4.1K' },
   { type: 'exchange', name: 'Bitget', avatar: '/exchanges/bitget.svg' },
+  // Profitable traders (green glow)
+  { type: 'user', name: '@BullMarket', avatar: `/avatars/${AVATAR_FILES[3]}.png`, winRate: '69.3%', pnl: '+$145K', volume: '$7.2M', followers: '4.1K' },
   { type: 'user', name: '@TraderPro', avatar: `/avatars/${AVATAR_FILES[4]}.png`, winRate: '68.7%', pnl: '+$134K', volume: '$6.8M', followers: '3.8K' },
   { type: 'user', name: '@CoinMaster', avatar: `/avatars/${AVATAR_FILES[5]}.png`, winRate: '67.4%', pnl: '+$125K', volume: '$6.1M', followers: '3.2K' },
-  { type: 'user', name: '@CryptoKing', avatar: `/avatars/${AVATAR_FILES[6]}.png`, winRate: '66.8%', pnl: '+$118K', volume: '$5.9M', followers: '2.9K' },
   { type: 'user', name: '@SatoshiFan', avatar: `/avatars/${AVATAR_FILES[7]}.png`, winRate: '65.2%', pnl: '+$109K', volume: '$5.5M', followers: '2.5K' },
-  { type: 'user', name: '@AlphaTrader', avatar: `/avatars/${AVATAR_FILES[8]}.png`, winRate: '64.1%', pnl: '+$98K', volume: '$4.8M', followers: '2.1K' },
   { type: 'user', name: '@DeFiKing', avatar: `/avatars/${AVATAR_FILES[9]}.png`, winRate: '63.5%', pnl: '+$87K', volume: '$4.2M', followers: '1.8K' },
-  { type: 'user', name: '@ChartMaster', avatar: `/avatars/${AVATAR_FILES[10]}.png`, winRate: '62.8%', pnl: '+$76K', volume: '$3.9M', followers: '1.5K' },
   { type: 'user', name: '@WhaleAlert', avatar: `/avatars/${AVATAR_FILES[11]}.png`, winRate: '61.3%', pnl: '+$65K', volume: '$3.5M', followers: '1.2K' },
+  { type: 'user', name: '@LongKing', avatar: `/avatars/${AVATAR_FILES[12]}.png`, winRate: '60.1%', pnl: '+$58K', volume: '$3.1M', followers: '980' },
+  { type: 'user', name: '@ScalpQueen', avatar: `/avatars/${AVATAR_FILES[13]}.png`, winRate: '59.4%', pnl: '+$47K', volume: '$2.8M', followers: '870' },
+  // Loss traders (red glow)
+  { type: 'user', name: '@CryptoKing', avatar: `/avatars/${AVATAR_FILES[6]}.png`, winRate: '42.1%', pnl: '-$34K', volume: '$5.9M', followers: '2.9K' },
+  { type: 'user', name: '@AlphaTrader', avatar: `/avatars/${AVATAR_FILES[8]}.png`, winRate: '38.5%', pnl: '-$52K', volume: '$4.8M', followers: '2.1K' },
+  { type: 'user', name: '@ChartMaster', avatar: `/avatars/${AVATAR_FILES[10]}.png`, winRate: '45.2%', pnl: '-$18K', volume: '$3.9M', followers: '1.5K' },
+  { type: 'user', name: '@YoloSwap', avatar: `/avatars/${AVATAR_FILES[14]}.png`, winRate: '35.8%', pnl: '-$67K', volume: '$2.4M', followers: '650' },
+  { type: 'user', name: '@PaperHands', avatar: `/avatars/${AVATAR_FILES[15]}.png`, winRate: '40.3%', pnl: '-$29K', volume: '$1.9M', followers: '420' },
 ];
 
 function fibonacciSphere(count: number, radius: number) {
@@ -119,10 +128,12 @@ export function ConstellationOrb() {
 
     // Controls
     const controls = new OrbitControls(camera, renderer.domElement);
-    controls.enableZoom = false;
+    controls.enableZoom = true;
+    controls.minDistance = 8;
+    controls.maxDistance = 22;
     controls.enablePan = false;
     controls.autoRotate = true;
-    controls.autoRotateSpeed = 0.6;
+    controls.autoRotateSpeed = 1.2;
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
     controls.rotateSpeed = 0.3;
@@ -233,8 +244,65 @@ export function ConstellationOrb() {
         return;
       }
 
-      // User profile nodes: use avatar sprite with circular dark bg
+      // User profile nodes: use avatar sprite with glow + dark bg
       if (isSpecial && data && data.type === 'user') {
+        const isTopTrader = data.rank && data.rank <= 3;
+        const isProfit = data.pnl.startsWith('+');
+        // Gold for top traders, green for profit, red for loss
+        const glowR = isTopTrader ? 255 : isProfit ? 34 : 220;
+        const glowG = isTopTrader ? 195 : isProfit ? 197 : 20;
+        const glowB = isTopTrader ? 0 : isProfit ? 94 : 20;
+
+        // Outer glow sprite (cryptobubbles style — layered glow)
+        const glowCanvas = document.createElement('canvas');
+        const gSz = 256;
+        glowCanvas.width = gSz;
+        glowCanvas.height = gSz;
+        const ctxGlow = glowCanvas.getContext('2d')!;
+        const cx = gSz / 2;
+
+        // Layer 1: wide soft outer glow
+        const outerGrad = ctxGlow.createRadialGradient(cx, cx, gSz * 0.15, cx, cx, cx);
+        outerGrad.addColorStop(0, `rgba(${glowR}, ${glowG}, ${glowB}, 0.35)`);
+        outerGrad.addColorStop(0.3, `rgba(${glowR}, ${glowG}, ${glowB}, 0.12)`);
+        outerGrad.addColorStop(0.6, `rgba(${glowR}, ${glowG}, ${glowB}, 0.03)`);
+        outerGrad.addColorStop(1, `rgba(${glowR}, ${glowG}, ${glowB}, 0)`);
+        ctxGlow.beginPath();
+        ctxGlow.arc(cx, cx, cx, 0, Math.PI * 2);
+        ctxGlow.fillStyle = outerGrad;
+        ctxGlow.fill();
+
+        // Layer 2: bright inner ring
+        const ringRadius = gSz * 0.18;
+        const ringWidth = isTopTrader ? 6 : 4;
+        ctxGlow.beginPath();
+        ctxGlow.arc(cx, cx, ringRadius, 0, Math.PI * 2);
+        ctxGlow.strokeStyle = `rgba(${glowR}, ${glowG}, ${glowB}, 0.7)`;
+        ctxGlow.lineWidth = ringWidth;
+        ctxGlow.stroke();
+
+        // Layer 3: hot white core glow (subtle)
+        const coreGrad = ctxGlow.createRadialGradient(cx, cx, 0, cx, cx, gSz * 0.12);
+        coreGrad.addColorStop(0, `rgba(255, 255, 255, ${isTopTrader ? 0.25 : 0.15})`);
+        coreGrad.addColorStop(0.5, `rgba(${glowR}, ${glowG}, ${glowB}, 0.1)`);
+        coreGrad.addColorStop(1, `rgba(${glowR}, ${glowG}, ${glowB}, 0)`);
+        ctxGlow.beginPath();
+        ctxGlow.arc(cx, cx, gSz * 0.12, 0, Math.PI * 2);
+        ctxGlow.fillStyle = coreGrad;
+        ctxGlow.fill();
+
+        const glowTex = new THREE.CanvasTexture(glowCanvas);
+        glowTex.minFilter = THREE.LinearFilter;
+        glowTex.magFilter = THREE.LinearFilter;
+        const glowSpriteMat = new THREE.SpriteMaterial({ map: glowTex, transparent: true, depthTest: false });
+        const glowSprite = new THREE.Sprite(glowSpriteMat);
+        glowSprite.position.copy(point);
+        const glowSize = isTopTrader ? 1.1 : 0.85;
+        glowSprite.scale.set(glowSize, glowSize, glowSize);
+        glowSprite.renderOrder = 0;
+        glowSprite.userData = { isGlow: true, baseGlowScale: glowSize };
+        group.add(glowSprite);
+
         // Dark circular background
         const bgCanvas = document.createElement('canvas');
         bgCanvas.width = 64;
@@ -258,7 +326,11 @@ export function ConstellationOrb() {
         avatarSprite.position.copy(point);
         avatarSprite.scale.set(0.28, 0.28, 0.28);
         avatarSprite.renderOrder = 2;
-        avatarSprite.userData = { index: i, isSpecial: true, targetScale: 1, bgSprite, baseScale: 0.28, baseBgScale: 0.35 };
+        const avatarSize = isTopTrader ? 0.32 : 0.28;
+        const bgSize = isTopTrader ? 0.4 : 0.35;
+        avatarSprite.scale.set(avatarSize, avatarSize, avatarSize);
+        bgSprite.scale.set(bgSize, bgSize, bgSize);
+        avatarSprite.userData = { index: i, isSpecial: true, targetScale: 1, bgSprite, glowSprite, baseScale: avatarSize, baseBgScale: bgSize, baseGlowScale: glowSize };
         group.add(avatarSprite);
 
         // Load avatar image as circular texture
@@ -343,10 +415,14 @@ export function ConstellationOrb() {
     const lineMat = new THREE.LineBasicMaterial({
       vertexColors: true,
       transparent: true,
-      opacity: 0.4,
+      opacity: 0.5,
     });
     const lines = new THREE.LineSegments(lineGeo, lineMat);
     group.add(lines);
+
+    // Store original colors and line point indices for depth fading
+    const originalColors = new Float32Array(lineColors);
+    const lineColorAttr = lineGeo.getAttribute('color') as THREE.BufferAttribute;
 
     // Add a subtle glow sphere
     const glowGeo = new THREE.SphereGeometry(SPHERE_RADIUS * 1.05, 32, 32);
@@ -377,7 +453,7 @@ export function ConstellationOrb() {
     const mouse = new THREE.Vector2();
     let hoveredNode: THREE.Mesh | null = null;
     let hoveredSprite: THREE.Sprite | null = null;
-    const defaultAutoRotateSpeed = 0.6;
+    const defaultAutoRotateSpeed = 1.2;
     // Map hit mesh index to exchange sprite
     const spriteByIndex = new Map<number, THREE.Sprite>();
     exchangeSprites.forEach((s) => spriteByIndex.set(s.userData.index, s));
@@ -426,13 +502,8 @@ export function ConstellationOrb() {
           renderer.domElement.style.cursor = 'pointer';
         }
         const data = dataMap.get(hitTarget.userData.index) || null;
-        // User nodes: show expanded card directly, no small tooltip
-        if (data && data.type === 'user') {
-          setTooltip({ visible: false, x: 0, y: 0, data: null });
-          setExpandedUser(data);
-        } else {
-          setTooltip({ visible: true, x: clientX - rect.left, y: clientY - rect.top, data });
-        }
+        // Show small tooltip on hover for all nodes
+        setTooltip({ visible: true, x: clientX - rect.left, y: clientY - rect.top, data });
         return true;
       }
       return false;
@@ -446,6 +517,32 @@ export function ConstellationOrb() {
 
     const onTouchStart = (e: TouchEvent) => {
       const touch = e.touches[0];
+      const rect = renderer.domElement.getBoundingClientRect();
+      mouse.x = ((touch.clientX - rect.left) / rect.width) * 2 - 1;
+      mouse.y = -((touch.clientY - rect.top) / rect.height) * 2 + 1;
+      raycaster.setFromCamera(mouse, camera);
+      const intersects = raycaster.intersectObjects(hitMeshes);
+      if (intersects.length > 0) {
+        const hitTarget = intersects[0].object as THREE.Mesh;
+        const idx = hitTarget.userData.index;
+        const data = dataMap.get(idx);
+        if (data && data.type === 'user') {
+          // Mobile: skip small tooltip, go straight to expanded card
+          const matchedNode = specialMeshes.find(m => m.userData.index === idx);
+          if (matchedNode) {
+            const worldPos = new THREE.Vector3();
+            matchedNode.getWorldPosition(worldPos);
+            worldPos.project(camera);
+            const screenX = (worldPos.x * 0.5 + 0.5) * rect.width;
+            const screenY = (-worldPos.y * 0.5 + 0.5) * rect.height;
+            setTooltip({ visible: false, x: screenX, y: screenY, data: null });
+          }
+          setExpandedUser(data);
+          e.stopPropagation();
+          return;
+        }
+      }
+      // For exchange nodes, use normal handleHit
       if (handleHit(touch.clientX, touch.clientY)) {
         e.stopPropagation();
       }
@@ -455,7 +552,31 @@ export function ConstellationOrb() {
       // Don't auto-clear if expanded user card is showing
     };
 
-    const onClick = () => {
+    const onClick = (e: MouseEvent) => {
+      const rect = renderer.domElement.getBoundingClientRect();
+      mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+      raycaster.setFromCamera(mouse, camera);
+      const intersects = raycaster.intersectObjects(hitMeshes);
+      if (intersects.length > 0) {
+        const hitTarget = intersects[0].object as THREE.Mesh;
+        const idx = hitTarget.userData.index;
+        const data = dataMap.get(idx);
+        if (data && data.type === 'user') {
+          // Project node 3D position to screen
+          const matchedNode = specialMeshes.find(m => m.userData.index === idx);
+          if (matchedNode) {
+            const worldPos = new THREE.Vector3();
+            matchedNode.getWorldPosition(worldPos);
+            worldPos.project(camera);
+            const screenX = (worldPos.x * 0.5 + 0.5) * rect.width;
+            const screenY = (-worldPos.y * 0.5 + 0.5) * rect.height;
+            setTooltip(prev => ({ ...prev, x: screenX, y: screenY }));
+          }
+          setExpandedUser(data);
+          return;
+        }
+      }
       // Click on empty space — close expanded card
       setExpandedUser(null);
     };
@@ -497,7 +618,34 @@ export function ConstellationOrb() {
           const bgScale = currentBg + (bgBase - currentBg) * 0.12;
           sprite.userData.bgSprite.scale.set(bgScale, bgScale, bgScale);
         }
+        if (sprite.userData.glowSprite) {
+          const glowPulse = 1 + 0.35 * Math.sin(time * 1.8 + (sprite.userData.index || 0) * 0.7);
+          const baseGlow = sprite.userData.baseGlowScale || 0.85;
+          const glowBase = baseGlow * target * glowPulse;
+          const currentGlow = sprite.userData.glowSprite.scale.x;
+          const gs = currentGlow + (glowBase - currentGlow) * 0.1;
+          sprite.userData.glowSprite.scale.set(gs, gs, gs);
+        }
       });
+
+      // Depth fade: update line vertex colors based on facing direction
+      const camDir = camera.position.clone().normalize();
+      const posAttr = lineGeo.getAttribute('position') as THREE.BufferAttribute;
+      const tempVec = new THREE.Vector3();
+      for (let vi = 0; vi < posAttr.count; vi++) {
+        tempVec.set(posAttr.getX(vi), posAttr.getY(vi), posAttr.getZ(vi));
+        group.localToWorld(tempVec);
+        const facing = tempVec.normalize().dot(camDir);
+        // front=1.0, back=0.08
+        const fade = Math.max(0.08, Math.min(1.0, (facing + 0.3) / 1.1));
+        const ci = vi * 3;
+        lineColorAttr.setXYZ(vi,
+          originalColors[ci] * fade,
+          originalColors[ci + 1] * fade,
+          originalColors[ci + 2] * fade,
+        );
+      }
+      lineColorAttr.needsUpdate = true;
 
       renderer.render(scene, camera);
     };
@@ -530,11 +678,11 @@ export function ConstellationOrb() {
   return (
     <div
       ref={containerRef}
-      className="relative mx-auto h-[340px] w-[340px] sm:h-[500px] sm:w-[500px] lg:h-[600px] lg:w-[600px]"
+      className="relative mx-auto aspect-square w-full max-w-[340px] sm:max-w-[500px] lg:max-w-none lg:w-[600px]"
       style={{ cursor: 'grab' }}
     >
-      {/* Exchange Tooltip */}
-      {tooltip.visible && tooltip.data && tooltip.data.type === 'exchange' && !expandedUser && (
+      {/* Small Tooltip (hover) */}
+      {tooltip.visible && tooltip.data && !expandedUser && (
         <div
           className="pointer-events-none absolute z-10 flex items-center gap-2.5 rounded-lg border border-white/10 bg-[#1a1a1a]/95 px-3 py-2 backdrop-blur-sm"
           style={{
@@ -543,33 +691,58 @@ export function ConstellationOrb() {
             transform: 'translateX(-50%)',
           }}
         >
-          <img
-            src={tooltip.data.avatar}
-            alt={tooltip.data.name}
-            className="h-5 w-5 shrink-0 object-contain"
-          />
-          <div className="text-xs font-semibold text-white">{tooltip.data.name}</div>
+          {tooltip.data.type === 'user' ? (
+            <>
+              <div className="relative shrink-0">
+                <img src={tooltip.data.avatar} alt={tooltip.data.name} className="h-7 w-7 rounded-full object-cover" />
+                {tooltip.data.rank && tooltip.data.rank <= 3 && (
+                  <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-gradient-to-b from-[#FFD700] to-[#B8860B] text-[8px] font-bold text-black">
+                    {tooltip.data.rank}
+                  </span>
+                )}
+              </div>
+              <div className="text-xs font-semibold text-white">{tooltip.data.name}</div>
+              <div className={`text-xs font-semibold ${tooltip.data.rank && tooltip.data.rank <= 3 ? 'text-[#FFD700]' : tooltip.data.pnl.startsWith('+') ? 'text-[#22c55e]' : 'text-[#ef4444]'}`}>{tooltip.data.pnl}</div>
+            </>
+          ) : (
+            <>
+              <img src={tooltip.data.avatar} alt={tooltip.data.name} className="h-5 w-5 shrink-0 object-contain" />
+              <div className="text-xs font-semibold text-white">{tooltip.data.name}</div>
+            </>
+          )}
         </div>
       )}
 
       {/* Expanded User Profile Card */}
       {expandedUser && (
         <div
-          className="absolute left-1/2 top-1/2 z-20 -translate-x-1/2 -translate-y-1/2 cursor-pointer rounded-xl border border-white/10 bg-[#1a1a1a]/95 backdrop-blur-sm"
+          className="absolute z-20 cursor-pointer rounded-xl border border-white/10 bg-[#1a1a1a]/95 backdrop-blur-sm"
+          style={{
+            left: tooltip.x,
+            top: tooltip.y - 10,
+            transform: 'translate(-50%, -100%)',
+          }}
           onClick={() => setExpandedUser(null)}
         >
           <button className="absolute right-2 top-2 text-white/30 transition-colors hover:text-white">
             <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M1 1l8 8M9 1L1 9" /></svg>
           </button>
           <div className="flex items-center gap-3 p-3 pb-2 pr-7">
-            <img
-              src={expandedUser.avatar}
-              alt={expandedUser.name}
-              className="h-10 w-10 shrink-0 rounded-full object-cover"
-            />
+            <div className="relative shrink-0">
+              <img
+                src={expandedUser.avatar}
+                alt={expandedUser.name}
+                className="h-10 w-10 rounded-full object-cover"
+              />
+              {expandedUser.rank && expandedUser.rank <= 3 && (
+                <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-gradient-to-b from-[#FFD700] to-[#B8860B] text-[9px] font-bold text-black">
+                  {expandedUser.rank}
+                </span>
+              )}
+            </div>
             <div className="min-w-0 pr-2">
               <div className="whitespace-nowrap text-xs font-bold text-white">{expandedUser.name}</div>
-              <div className="whitespace-nowrap text-xs font-semibold text-[#22c55e]">{expandedUser.pnl}</div>
+              <div className={`whitespace-nowrap text-xs font-semibold ${expandedUser.rank && expandedUser.rank <= 3 ? 'text-[#FFD700]' : expandedUser.pnl.startsWith('+') ? 'text-[#22c55e]' : 'text-[#ef4444]'}`}>{expandedUser.pnl}</div>
             </div>
           </div>
           <div className="px-3 pb-3">

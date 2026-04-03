@@ -8,6 +8,8 @@ interface Star {
   velocityX: number;
   velocityY: number;
   twinkleSpeed: number | null;
+  color: [number, number, number];
+  glow: boolean;
 }
 
 interface StarsBackgroundProps {
@@ -44,16 +46,25 @@ export function StarsBackground({
         const angle = Math.random() * Math.PI * 2;
         const speed = Math.random() * (maxSpeed - minSpeed) + minSpeed;
         const shouldTwinkle = allStarsTwinkle || Math.random() < twinkleProbability;
+        const isGlow = Math.random() < 0.08;
+        const colorRand = Math.random();
+        const color: [number, number, number] = colorRand < 0.3
+          ? [200, 160, 255] // soft purple
+          : colorRand < 0.5
+            ? [170, 200, 255] // soft blue
+            : [255, 255, 255]; // white
         return {
           x: Math.random() * width,
           y: Math.random() * height,
-          radius: Math.random() * 0.6 + 0.6,
-          opacity: Math.random() * 0.2 + 0.3,
+          radius: isGlow ? Math.random() * 1.2 + 1.2 : Math.random() * 0.5 + 0.4,
+          opacity: isGlow ? Math.random() * 0.3 + 0.4 : Math.random() * 0.2 + 0.2,
           velocityX: Math.cos(angle) * speed,
           velocityY: Math.sin(angle) * speed,
           twinkleSpeed: shouldTwinkle
             ? Math.random() * (maxTwinkleSpeed - minTwinkleSpeed) + minTwinkleSpeed
             : null,
+          color,
+          glow: isGlow,
         };
       });
     },
@@ -94,9 +105,21 @@ export function StarsBackground({
             ? 0.5 + Math.abs(0.5 * Math.sin((Date.now() * 0.001) / star.twinkleSpeed))
             : star.opacity;
 
+        const [r, g, b] = star.color;
+        if (star.glow) {
+          // Soft glow halo
+          const gradient = ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, star.radius * 3);
+          gradient.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${opacity * 0.6})`);
+          gradient.addColorStop(0.4, `rgba(${r}, ${g}, ${b}, ${opacity * 0.2})`);
+          gradient.addColorStop(1, `rgba(${r}, ${g}, ${b}, 0)`);
+          ctx.beginPath();
+          ctx.arc(star.x, star.y, star.radius * 3, 0, Math.PI * 2);
+          ctx.fillStyle = gradient;
+          ctx.fill();
+        }
         ctx.beginPath();
         ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+        ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${opacity})`;
         ctx.fill();
       }
 

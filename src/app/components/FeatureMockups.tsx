@@ -382,9 +382,9 @@ export function PositionsMockup() {
   ];
 
   const gainers = [
-    { coin: 'BTC', price: '$68,234', change: '+5.4%', positive: true },
-    { coin: 'ETH', price: '$3,523', change: '+3.2%', positive: true },
-    { coin: 'SOL', price: '$142', change: '-1.8%', positive: false },
+    { coin: 'BTC', price: '$68,234', change: '+5.4%', positive: true, logo: '/coins/btc.png' },
+    { coin: 'ETH', price: '$3,523', change: '+3.2%', positive: true, logo: '/coins/eth.png' },
+    { coin: 'SOL', price: '$142', change: '-1.8%', positive: false, logo: '/coins/sol.png' },
   ];
 
   return (
@@ -475,7 +475,7 @@ export function PositionsMockup() {
               transition={{ delay: 0.4 + i * 0.08 }}
             >
               <div className="flex items-center gap-2">
-                <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#AB51C5]/20 text-xs font-bold text-[#AB51C5]">{coin.coin[0]}</div>
+                <img src={coin.logo} alt={coin.coin} className="h-7 w-7 shrink-0 rounded-full object-cover" />
                 <span className="text-sm font-medium">{coin.coin}</span>
               </div>
               <div className="text-right">
@@ -492,9 +492,9 @@ export function PositionsMockup() {
 
 export function MarketMockup() {
   const coins = [
-    { coin: 'Bitcoin', symbol: 'BTC', price: '68,234', change: 5.4, positive: true },
-    { coin: 'Ethereum', symbol: 'ETH', price: '3,523', change: 3.2, positive: true },
-    { coin: 'Solana', symbol: 'SOL', price: '142', change: -1.8, positive: false },
+    { coin: 'Bitcoin', symbol: 'BTC', price: '68,234', change: 5.4, positive: true, logo: '/coins/btc.png' },
+    { coin: 'Ethereum', symbol: 'ETH', price: '3,523', change: 3.2, positive: true, logo: '/coins/eth.png' },
+    { coin: 'Solana', symbol: 'SOL', price: '142', change: -1.8, positive: false, logo: '/coins/sol.png' },
   ];
 
   return (
@@ -546,8 +546,10 @@ export function MarketMockup() {
               transition={{ duration: 0.4, delay: 0.25 + i * 0.1 }}
             >
               <div className="flex items-center gap-3">
-                <motion.div
-                  className="h-8 w-8 shrink-0 rounded-full bg-gradient-to-br from-[#AB51C5] to-[#a45fbd]"
+                <motion.img
+                  src={coin.logo}
+                  alt={coin.symbol}
+                  className="h-8 w-8 shrink-0 rounded-full object-cover"
                   initial={{ scale: 0 }}
                   whileInView={{ scale: 1 }}
                   viewport={{ once: true }}
