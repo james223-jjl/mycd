@@ -2,21 +2,15 @@ import { ArrowRight, TrendingUp } from 'lucide-react';
 import { motion } from 'motion/react';
 import { Button } from './ui/button';
 import { MeteorEffect } from './MeteorEffect';
+import { HeroPlanet } from './HeroPlanet';
 
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden border-b border-border/50 pt-16 pb-20 sm:pt-32">
-      {/* Hero background image */}
-      <div
-        className="absolute inset-0 bg-cover bg-[center_60%] sm:bg-center bg-no-repeat"
-        style={{
-          backgroundImage: 'url(/hero-bg.jpg)',
-          mask: 'linear-gradient(to bottom, transparent 0%, black 15%, black 45%, transparent 75%)',
-          WebkitMask: 'linear-gradient(to bottom, transparent 0%, black 15%, black 45%, transparent 75%)',
-          opacity: 0.35,
-        }}
-      />
+    <section className="relative overflow-hidden pt-16 pb-20 sm:pt-32">
+      <div className="absolute bottom-0 left-1/2 h-px w-full max-w-4xl -translate-x-1/2" style={{ background: 'linear-gradient(90deg, transparent, rgba(171,81,197,0.4) 30%, rgba(171,81,197,0.6) 50%, rgba(171,81,197,0.4) 70%, transparent)' }} />
+      {/* Animated planet with aura glow */}
+      <HeroPlanet />
       {/* Background gradient glow */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#AB51C5]/10 via-transparent to-transparent" />
       <div className="absolute top-20 left-1/2 h-[500px] w-[700px] -translate-x-1/2 rounded-full blur-[150px]" style={{ background: 'radial-gradient(circle, rgba(171, 81, 197, 0.3) 0%, rgba(151, 100, 255, 0.15) 40%, rgba(100, 60, 180, 0.06) 70%, transparent 100%)' }} />
@@ -87,10 +81,17 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.9 }}
           >
-            <Button size="lg" className="bg-[#AB51C5] hover:bg-[#a45fbd] shadow-lg shadow-[#AB51C5]/50">
-              Connect API now
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
+            <div className="relative">
+              <motion.div
+                className="absolute -inset-2 rounded-xl bg-[#AB51C5]/50 blur-lg"
+                animate={{ opacity: [0.4, 0.7, 0.4] }}
+                transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+              />
+              <Button size="lg" className="relative bg-[#AB51C5] hover:bg-[#a45fbd] shadow-lg shadow-[#AB51C5]/50">
+                Connect API now
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </div>
             {/* <Button size="lg" variant="outline" className="border-border bg-secondary hover:bg-accent">
               Explore Top Traders
             </Button> */}

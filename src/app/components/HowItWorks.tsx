@@ -21,7 +21,8 @@ export function HowItWorks() {
   ];
 
   return (
-    <section className="border-b border-border/50 py-24">
+    <section className="relative py-24">
+      <div className="absolute bottom-0 left-1/2 h-px w-full max-w-4xl -translate-x-1/2" style={{ background: 'linear-gradient(90deg, transparent, rgba(171,81,197,0.4) 30%, rgba(171,81,197,0.6) 50%, rgba(171,81,197,0.4) 70%, transparent)' }} />
       <div className="container mx-auto px-6">
         <div className="mb-16 text-center">
           <motion.h2
