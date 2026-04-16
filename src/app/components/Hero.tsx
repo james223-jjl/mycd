@@ -7,16 +7,24 @@ import { MeteorEffect } from './MeteorEffect';
 export function Hero() {
   return (
     <section className="relative overflow-hidden border-b border-border/50 pt-16 pb-20 sm:pt-32">
-      {/* Hero background image */}
+      {/* Hero background video */}
       <div
-        className="absolute inset-0 bg-cover bg-[center_60%] sm:bg-center bg-no-repeat"
+        className="absolute inset-0 overflow-hidden"
         style={{
-          backgroundImage: 'url(/hero-bg.jpg)',
           mask: 'linear-gradient(to bottom, transparent 0%, black 15%, black 45%, transparent 75%)',
           WebkitMask: 'linear-gradient(to bottom, transparent 0%, black 15%, black 45%, transparent 75%)',
-          opacity: 0.35,
+          opacity: 0.65,
         }}
-      />
+      >
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 h-full w-full object-cover object-[center_30%] sm:object-center"
+          src="/hero-v2.mp4"
+        />
+      </div>
       {/* Background gradient glow */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#AB51C5]/10 via-transparent to-transparent" />
       <div className="absolute top-20 left-1/2 h-[500px] w-[700px] -translate-x-1/2 rounded-full blur-[150px]" style={{ background: 'radial-gradient(circle, rgba(171, 81, 197, 0.3) 0%, rgba(151, 100, 255, 0.15) 40%, rgba(100, 60, 180, 0.06) 70%, transparent 100%)' }} />

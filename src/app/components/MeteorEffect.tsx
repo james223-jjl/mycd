@@ -33,10 +33,10 @@ function createMeteor(width: number, height: number): Meteor {
   return {
     x: Math.random() * width * 1.2,
     y: -10 - Math.random() * height * 0.3,
-    length: 80 + Math.random() * 120,
-    speed: 4 + Math.random() * 6,
-    opacity: 0.4 + Math.random() * 0.5,
-    thickness: 0.8 + Math.random() * 1.2,
+    length: 120 + Math.random() * 180,
+    speed: 5 + Math.random() * 8,
+    opacity: 0.5 + Math.random() * 0.5,
+    thickness: 1.2 + Math.random() * 1.8,
     angle,
     color,
     life: 0,
@@ -45,7 +45,7 @@ function createMeteor(width: number, height: number): Meteor {
 }
 
 export function MeteorEffect({
-  meteorCount = 4,
+  meteorCount = 8,
   className = '',
   style,
 }: MeteorEffectProps) {
@@ -74,7 +74,7 @@ export function MeteorEffect({
       if (meteorsRef.current.length < meteorCount) {
         meteorsRef.current.push(createMeteor(canvas.width, canvas.height));
       }
-      timerRef.current = window.setTimeout(spawnMeteor, 300 + Math.random() * 1200);
+      timerRef.current = window.setTimeout(spawnMeteor, 150 + Math.random() * 600);
     };
     spawnMeteor();
 
