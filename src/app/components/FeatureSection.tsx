@@ -12,9 +12,10 @@ interface FeatureSectionProps {
 
 export function FeatureSection({ title, description, highlights, visual, reversed = false }: FeatureSectionProps) {
   return (
-    <section className="border-b border-border/50 py-24">
+    <section className="relative py-24">
+      <div className="absolute bottom-0 left-1/2 h-px w-full max-w-4xl -translate-x-1/2" style={{ background: 'linear-gradient(90deg, transparent, rgba(171,81,197,0.4) 30%, rgba(171,81,197,0.6) 50%, rgba(171,81,197,0.4) 70%, transparent)' }} />
       <div className="container mx-auto px-6">
-        <div className={`grid grid-cols-1 items-center gap-12 lg:grid-cols-2 ${reversed ? 'lg:grid-flow-dense' : ''}`}>
+        <div className={`grid grid-cols-1 items-start gap-12 lg:grid-cols-2 ${reversed ? 'lg:grid-flow-dense' : ''}`}>
           {/* Text Content */}
           <motion.div
             className={reversed ? 'lg:col-start-2' : ''}
@@ -24,7 +25,7 @@ export function FeatureSection({ title, description, highlights, visual, reverse
             transition={{ duration: 0.7, ease: 'easeOut' }}
           >
             <motion.h2
-              className="mb-4 bg-gradient-to-b from-white via-white/90 to-white/50 bg-clip-text text-2xl font-bold leading-tight text-transparent md:text-3xl"
+              className="mb-4 mx-auto max-w-4xl bg-gradient-to-b from-white via-white/90 to-white/50 bg-clip-text text-4xl font-bold leading-tight text-transparent md:text-5xl"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-80px' }}
