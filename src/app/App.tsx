@@ -16,6 +16,7 @@ import { Leaderboard } from './components/Leaderboard';
 import { Testimonials } from './components/Testimonials';
 import { FinalCTA } from './components/FinalCTA';
 import { Footer } from './components/Footer';
+import { GalaxyBg } from './components/GalaxyBg';
 
 function BackToTop() {
   const [visible, setVisible] = useState(false);
@@ -54,8 +55,15 @@ export default function App() {
         {/* <TrustBar /> */}
 
         {/* Constellation Orb + Core Features Header */}
-        <section className="pt-24 pb-8">
-          <div className="container mx-auto px-6 text-center">
+        <section className="relative pt-24 pb-8 overflow-hidden" style={{ background: `
+          radial-gradient(ellipse 80% 50% at 50% 35%, rgba(80,25,120,0.2) 0%, rgba(50,15,80,0.08) 40%, transparent 70%),
+          radial-gradient(ellipse 60% 40% at 30% 50%, rgba(100,40,160,0.06) 0%, transparent 60%),
+          radial-gradient(ellipse 60% 40% at 70% 45%, rgba(60,20,140,0.05) 0%, transparent 60%),
+          radial-gradient(ellipse 40% 30% at 50% 60%, rgba(120,50,180,0.04) 0%, transparent 50%),
+          linear-gradient(180deg, rgba(10,4,20,0.4) 0%, rgba(15,6,30,0.5) 30%, rgba(10,4,20,0.5) 70%, rgba(5,2,10,0.6) 100%)
+        ` }}>
+          <GalaxyBg />
+          <div className="container relative mx-auto px-6 text-center">
             <h2 className="mb-4 mx-auto max-w-4xl bg-gradient-to-b from-white via-white/90 to-white/50 bg-clip-text text-4xl font-bold leading-tight text-transparent md:text-5xl">
               MyCoinDeck unifies all your trading data into one powerful dashboard.
             </h2>

@@ -850,29 +850,31 @@ export function ConstellationOrb() {
     <>
     <div
       ref={containerRef}
-      className="relative mx-auto w-full max-w-[500px] aspect-square sm:max-w-[700px] lg:max-w-none lg:h-[700px]"
+      className="relative mx-auto mb-24 sm:mb-0 w-full max-w-[500px] aspect-square sm:max-w-[700px] lg:max-w-none lg:h-[700px] overflow-visible"
       style={{ cursor: 'grab' }}
     >
 
       {/* Legend — horizontal on mobile (bottom), vertical on desktop (top-left) */}
-      <div className="pointer-events-none absolute bottom-2 left-1/2 z-10 flex -translate-x-1/2 items-center gap-3 rounded-full border border-white/[0.08] bg-[#1a1a1a]/70 px-3 py-1.5 backdrop-blur-sm sm:bottom-auto sm:left-4 sm:top-4 sm:translate-x-0 sm:flex-col sm:items-start sm:gap-2.5 sm:rounded-xl sm:px-4 sm:py-3">
-        <div className="hidden border-b border-white/[0.06] pb-2 sm:block">
-          <span className="text-[9px] font-semibold uppercase tracking-widest text-white/40">Traders</span>
+      <div className="pointer-events-none absolute -bottom-20 left-1/2 z-10 flex -translate-x-1/2 scale-[0.75] origin-bottom flex-col items-center gap-2 rounded-xl border border-white/[0.08] bg-[#1a1a1a]/70 px-3 py-2 backdrop-blur-sm sm:bottom-auto sm:left-4 sm:top-4 sm:translate-x-0 sm:scale-[0.75] sm:origin-top-left sm:items-start sm:gap-2.5 sm:px-4 sm:py-3">
+        <div className="border-b border-white/[0.06] pb-1.5 sm:pb-2 w-full">
+          <span className="text-[9px] font-semibold uppercase tracking-widest text-white/40 sm:text-[9px] text-left block">Live Traders<br />around the globe<br />(1 hour)</span>
         </div>
-        <div className="flex items-center gap-1.5 sm:gap-2.5">
-          <span className="relative flex h-2 w-2 sm:h-3 sm:w-3">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#FFD700] opacity-40" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-[#FFD700] shadow-[0_0_8px_rgba(255,215,0,0.6)] sm:h-3 sm:w-3" />
-          </span>
-          <span className="text-[9px] font-medium text-white/70 sm:text-[11px] sm:text-white/80">Top 10</span>
-        </div>
-        <div className="flex items-center gap-1.5 sm:gap-2.5">
-          <span className="inline-flex h-2 w-2 rounded-full bg-[#22c55e] shadow-[0_0_6px_rgba(34,197,94,0.4)] sm:h-3 sm:w-3" />
-          <span className="text-[9px] font-medium text-white/70 sm:text-[11px] sm:text-white/80">Profit</span>
-        </div>
-        <div className="flex items-center gap-1.5 sm:gap-2.5">
-          <span className="inline-flex h-2 w-2 rounded-full bg-[#dc1414] shadow-[0_0_6px_rgba(220,20,20,0.4)] sm:h-3 sm:w-3" />
-          <span className="text-[9px] font-medium text-white/70 sm:text-[11px] sm:text-white/80">Loss</span>
+        <div className="flex items-center gap-3 sm:flex-col sm:gap-2.5 sm:items-start">
+          <div className="flex items-center gap-1.5 sm:gap-2.5">
+            <span className="relative flex h-2 w-2 sm:h-3 sm:w-3">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#FFD700] opacity-40" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-[#FFD700] shadow-[0_0_8px_rgba(255,215,0,0.6)] sm:h-3 sm:w-3" />
+            </span>
+            <span className="text-[9px] font-medium text-white/70 sm:text-[11px] sm:text-white/80">Top 10 Traders</span>
+          </div>
+          <div className="flex items-center gap-1.5 sm:gap-2.5">
+            <span className="inline-flex h-2 w-2 rounded-full bg-[#22c55e] shadow-[0_0_6px_rgba(34,197,94,0.4)] sm:h-3 sm:w-3" />
+            <span className="text-[9px] font-medium text-white/70 sm:text-[11px] sm:text-white/80">Gainer</span>
+          </div>
+          <div className="flex items-center gap-1.5 sm:gap-2.5">
+            <span className="inline-flex h-2 w-2 rounded-full bg-[#dc1414] shadow-[0_0_6px_rgba(220,20,20,0.4)] sm:h-3 sm:w-3" />
+            <span className="text-[9px] font-medium text-white/70 sm:text-[11px] sm:text-white/80">Loser</span>
+          </div>
         </div>
       </div>
 
