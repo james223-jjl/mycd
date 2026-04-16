@@ -7,13 +7,24 @@ REMOTE_DIR="/var/www/mycoindeck.com"
 cd "$(cd "$(dirname "$0")" && pwd)"
 
 echo "Building..."
-rm -rf dist && npm run build
-
-echo "Clearing remote directory..."
-ssh $SERVER "rm -rf $REMOTE_DIR/*"
+rm -rf .next && npm run build
 
 echo "Uploading to server..."
-scp -r dist/* $SERVER:$REMOTE_DIR/
+rsync -avz --delete \
+  --exclude node_modules \
+  --exclude .git \
+  --exclude .DS_Store \
+  .next \
+  public \
+  package.json \
+  package-lock.json \
+  next.config.ts \
+  locales \
+  src/i18n \
+  $SERVER:$REMOTE_DIR/
 
-echo "Done! Verifying..."
+echo "Installing dependencies on server..."
+ssh $SERVER "cd $REMOTE_DIR && npm install --production"
+
+echo "Done!"
 ssh $SERVER "ls -lh $REMOTE_DIR/ | head -20"

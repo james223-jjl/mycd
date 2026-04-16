@@ -1,31 +1,33 @@
+'use client';
+
 import { motion } from 'motion/react';
+import { useTranslations } from 'next-intl';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 
 export function Testimonials() {
+  const t = useTranslations('testimonials');
+
   const testimonials = [
     {
       name: 'Michael Chen',
-      role: 'Professional Trader',
+      role: t('role1'),
       image: 'https://images.unsplash.com/photo-1581065178047-8ee15951ede6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhc2lhbiUyMGJ1c2luZXNzJTIwcHJvZmVzc2lvbmFsJTIwcG9ydHJhaXR8ZW58MXx8fHwxNzc0NTk5MTc1fDA&ixlib=rb-4.1.0&q=80&w=1080',
       initials: 'MC',
-      content:
-        'MyCoinDeck has completely transformed how I track my crypto portfolio. The analytics are incredibly detailed and the interface is beautiful.',
+      content: t('quote1'),
     },
     {
       name: 'Sarah Thompson',
-      role: 'Crypto Investor',
+      role: t('role2'),
       image: 'https://images.unsplash.com/photo-1765648636065-fd5c0884b629?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx5b3VuZyUyMGJ1c2luZXNzd29tYW4lMjBwcm9mZXNzaW9uYWwlMjBwb3J0cmFpdHxlbnwxfHx8fDE3NzQ1OTkxNzR8MA&ixlib=rb-4.1.0&q=80&w=1080',
       initials: 'ST',
-      content:
-        'Following top traders and analyzing their strategies has helped me improve my win rate by 25%. This platform is a game-changer.',
+      content: t('quote2'),
     },
     {
       name: 'David Martinez',
-      role: 'Day Trader',
+      role: t('role3'),
       image: 'https://images.unsplash.com/photo-1701463387028-3947648f1337?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjB0cmFkZXIlMjBwb3J0cmFpdCUyMGJ1c2luZXNzbWFufGVufDF8fHx8MTc3NDU5OTE3NHww&ixlib=rb-4.1.0&q=80&w=1080',
       initials: 'DM',
-      content:
-        'The real-time position monitoring and advanced analytics have given me the edge I need. Best trading dashboard I\'ve ever used.',
+      content: t('quote3'),
     },
   ];
 
@@ -41,7 +43,7 @@ export function Testimonials() {
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.5 }}
           >
-            Trusted by Traders Worldwide
+            {t('title')}
           </motion.h2>
           <motion.p
             className="text-xl text-muted-foreground"
@@ -50,7 +52,7 @@ export function Testimonials() {
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            See what our community has to say
+            {t('subtitle')}
           </motion.p>
         </div>
 

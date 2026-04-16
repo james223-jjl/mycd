@@ -1,8 +1,13 @@
+'use client';
+
 import { ArrowRight } from 'lucide-react';
 import { motion } from 'motion/react';
+import { useTranslations } from 'next-intl';
 import { Button } from './ui/button';
 
 export function FinalCTA() {
+  const t = useTranslations('finalCTA');
+
   return (
     <section className="relative overflow-hidden py-32">
       {/* Background Effects */}
@@ -18,7 +23,7 @@ export function FinalCTA() {
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.6 }}
           >
-            Start Tracking Your Crypto Portfolio Today
+            {t('title')}
           </motion.h2>
 
           <motion.p
@@ -28,7 +33,7 @@ export function FinalCTA() {
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            Join thousands of traders who are already improving their trading performance with MyCoinDeck.
+            {t('description')}
           </motion.p>
 
           {/* CTA Buttons */}
@@ -40,19 +45,19 @@ export function FinalCTA() {
             transition={{ duration: 0.5, delay: 0.2 }}
           >
             <Button size="lg" className="bg-[#AB51C5] hover:bg-[#a45fbd] shadow-lg shadow-[#AB51C5]/50">
-              Get Started Free
+              {t('getStarted')}
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
             <Button size="lg" variant="outline" className="border-border bg-secondary hover:bg-accent">
-              Explore Traders
+              {t('explore')}
             </Button>
           </motion.div>
 
           {/* Trust Signals */}
           <div className="mt-12 flex flex-wrap items-center justify-center gap-8 text-sm text-muted-foreground">
-            {['No credit card required', 'Free forever plan', 'Setup in minutes'].map((text, i) => (
+            {[t('noCreditCard'), t('freePlan'), t('setupMinutes')].map((text, i) => (
               <motion.div
-                key={text}
+                key={i}
                 className="flex items-center gap-2"
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}

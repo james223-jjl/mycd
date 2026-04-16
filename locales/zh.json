@@ -1,0 +1,157 @@
+{
+  "navbar": {
+    "exploreTraders": "探索交易员",
+    "markets": "市场",
+    "leaderboard": "排行榜",
+    "login": "登录",
+    "getStarted": "开始使用"
+  },
+  "hero": {
+    "title1": "追踪、分析、提升",
+    "title2": "您的全部交易",
+    "title3": "表现一站式管理。",
+    "description": "追踪您的投资组合，分析交易表现，关注成功的交易员 — 一切尽在一个平台。",
+    "cta": "立即连接 API"
+  },
+  "home": {
+    "coreHeading": "MyCoinDeck 将您所有的交易数据整合到一个强大的仪表盘中。"
+  },
+  "features": {
+    "analytics": {
+      "title": "绩效分析",
+      "description": "追踪盈亏、胜率、投资回报率 — 深入分析每笔交易，找出您的优势和不足。",
+      "highlights": ["追踪盈亏、胜率、ROI", "深入分析每笔交易", "发现优势与不足"]
+    },
+    "exchange": {
+      "title": "统一交易所视图",
+      "description": "连接您的交易所 API 密钥，实时自动同步 Binance、Bybit、OKX 和 Bitget 的交易、持仓和盈亏数据。",
+      "highlights": ["总余额与每日盈亏", "30天ROI与胜率", "初始资产 vs 当前资产", "跨交易所统一视图"]
+    },
+    "social": {
+      "title": "社交互联",
+      "description": "分享您的交易和市场洞察。对其他交易员的帖子点赞、转发和评论。在加密货币交易社区中建立您的粉丝群。",
+      "highlights": ["社交动态 — 交易员的推特", "分享持仓与分析", "关注您信任的交易员", "热门帖子与人气交易员"]
+    },
+    "discover": {
+      "title": "发现并关注顶级交易员",
+      "description": "浏览真实交易员的资料，查看他们的完整交易历史、持仓、盈亏分析和币种分配。关注您欣赏的交易员，从他们的策略中学习。",
+      "highlights": ["胜率、总盈亏、交易量", "未平仓位与订单历史", "币种与钱包分配图表", "关注 / 取消关注交易员"]
+    },
+    "news": {
+      "title": "全球即时新闻",
+      "description": "不错过任何影响市场的重大事件。",
+      "highlights": ["精选市场资讯", "走在趋势前沿"]
+    },
+    "market": {
+      "title": "市场情报",
+      "description": "走在市场前沿。",
+      "highlights": ["恐惧与贪婪指数", "热门币种", "加密新闻", "市场情绪"]
+    }
+  },
+  "howItWorks": {
+    "title": "如何使用",
+    "subtitle": "只需3个简单步骤即可开始",
+    "step1Title": "创建您的账户",
+    "step1Desc": "几秒钟即可注册，立即访问您的仪表盘。",
+    "step2Title": "连接交易所 API",
+    "step2Desc": "使用只读 API 密钥安全连接您的交易账户。",
+    "step3Title": "追踪并提升您的交易",
+    "step3Desc": "监控表现，分析交易，向顶级交易员学习。"
+  },
+  "leaderboard": {
+    "title": "顶级交易员排行榜",
+    "subtitle": "关注并向最佳表现者学习",
+    "rank": "排名",
+    "trader": "交易员",
+    "pnl": "盈亏",
+    "winRate": "胜率",
+    "volume": "交易量 (M)",
+    "topPerformer": "最佳表现",
+    "viewFull": "查看完整排行榜 →"
+  },
+  "testimonials": {
+    "title": "全球交易员的信赖之选",
+    "subtitle": "听听我们社区的心声",
+    "role1": "专业交易员",
+    "role2": "加密投资者",
+    "role3": "日内交易员",
+    "quote1": "MyCoinDeck 完全改变了我追踪加密投资组合的方式。分析功能非常详细，界面也非常精美。",
+    "quote2": "关注顶级交易员并分析他们的策略，帮助我将胜率提高了25%。这个平台是一个颠覆性的存在。",
+    "quote3": "实时持仓监控和高级分析功能给了我所需要的优势。这是我用过的最好的交易仪表盘。"
+  },
+  "finalCTA": {
+    "title": "立即开始追踪您的加密投资组合",
+    "description": "加入成千上万已经在使用 MyCoinDeck 提升交易表现的交易员。",
+    "getStarted": "免费开始",
+    "explore": "探索交易员",
+    "noCreditCard": "无需信用卡",
+    "freePlan": "永久免费计划",
+    "setupMinutes": "几分钟即可设置"
+  },
+  "footer": {
+    "description": "您的一站式加密交易仪表盘。追踪、分析并提升您的交易表现。",
+    "product": "产品",
+    "home": "首页",
+    "exploreTraders": "探索交易员",
+    "markets": "市场",
+    "leaderboard": "排行榜",
+    "resources": "资源",
+    "documentation": "文档",
+    "apiReference": "API 参考",
+    "support": "支持",
+    "status": "状态",
+    "company": "公司",
+    "about": "关于",
+    "blog": "博客",
+    "careers": "招聘",
+    "privacyPolicy": "隐私政策",
+    "social": "社交媒体",
+    "copyright": "© 2026 MyCoinDeck. 保留所有权利。",
+    "terms": "条款",
+    "privacy": "隐私",
+    "cookies": "Cookies"
+  },
+  "mockups": {
+    "assetAllocation": "资产分配",
+    "connectedExchanges": "已连接交易所",
+    "allSynced": "全部同步",
+    "totalBalance": "总余额",
+    "dailyPnl": "每日盈亏",
+    "thirtyDayRoi": "30天ROI",
+    "winRate": "胜率",
+    "socialFeed": "社交动态",
+    "trending": "热门",
+    "trendingTopics": "热门话题",
+    "latestNews": "最新新闻",
+    "live": "实时",
+    "topMovers": "涨跌榜",
+    "fearGreed": "恐惧与贪婪",
+    "greed": "贪婪",
+    "marketPulse": "市场脉搏",
+    "bullish": "看涨",
+    "bearish": "看跌",
+    "strong": "强劲",
+    "topTraders": "顶级交易员",
+    "thisWeek": "本周",
+    "pnl": "盈亏",
+    "follow": "关注",
+    "followers": "粉丝",
+    "fearGreedIndex": "恐惧与贪婪指数",
+    "marketSentiment": "市场情绪",
+    "trendingCoins": "热门币种",
+    "latestCryptoNews": "最新加密新闻",
+    "totalAcrossAll": "所有交易所总计",
+    "today": "今日",
+    "spotFutures": "现货 + 合约",
+    "perpetuals": "永续合约",
+    "unified": "统一",
+    "news1": "比特币 ETF 录得创纪录流入",
+    "news2": "以太坊升级计划于第二季度进行",
+    "news3": "主要 DeFi 协议宣布...",
+    "newsDetail1": "比特币 ETF 单日流入创纪录 12 亿美元",
+    "newsDetail2": "以太坊 Layer 2 TVL 创历史新高",
+    "newsDetail3": "SEC 推迟 Solana ETF 申请决定",
+    "post1": "在 $67,234 做多 BTC/USDT — 目标 $72K。风险回报看起来不错。",
+    "post2": "ETH 在4小时图上突破200 EMA。预计将继续上涨至 $4K。"
+  }
+}

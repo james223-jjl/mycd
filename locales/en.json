@@ -1,0 +1,157 @@
+{
+  "navbar": {
+    "exploreTraders": "Explore Traders",
+    "markets": "Markets",
+    "leaderboard": "Leaderboard",
+    "login": "Login",
+    "getStarted": "Get Started"
+  },
+  "hero": {
+    "title1": "Track, Analyze, and Improve",
+    "title2": "Your Entire Trading",
+    "title3": "Performance Unified.",
+    "description": "Track your portfolio, analyze your trading performance, and follow successful traders — all in one place.",
+    "cta": "Connect API now"
+  },
+  "home": {
+    "coreHeading": "MyCoinDeck unifies all your trading data into one powerful dashboard."
+  },
+  "features": {
+    "analytics": {
+      "title": "Performance Analytics",
+      "description": "Track PnL, win rate, ROI — with a deep breakdown of every trade to identify your strengths and weaknesses.",
+      "highlights": ["Track PnL, win rate, ROI", "Deep breakdown of trades", "Identify strengths & weaknesses"]
+    },
+    "exchange": {
+      "title": "Unified Exchange View",
+      "description": "Connect your exchange API keys and automatically sync trades, positions, and PnL in real time across Binance, Bybit, OKX, and Bitget.",
+      "highlights": ["Total Balance & Daily PnL", "30-Day ROI & Win Rate", "Initial Asset vs Current Asset", "Cross-exchange unified view"]
+    },
+    "social": {
+      "title": "Get Connected",
+      "description": "Post your trades and market insights. Like, reshare, and comment on other traders' posts. Build your following in the crypto trading community.",
+      "highlights": ["Social feed — like Twitter for traders", "Share positions & analysis", "Follow feed from traders you trust", "Trending posts & popular traders"]
+    },
+    "discover": {
+      "title": "Discover and Follow Top Traders",
+      "description": "Browse profiles of real traders, view their full trading history, positions, PnL analysis, and coin allocations. Follow traders you admire and learn from their strategies.",
+      "highlights": ["Win Rate, Total PnL, Trading Volume", "Open Positions & Order History", "Coin & Wallet Allocation Charts", "Follow / Unfollow traders"]
+    },
+    "news": {
+      "title": "Instant Worldwide News",
+      "description": "Never miss a market-moving event.",
+      "highlights": ["Curated market updates", "Stay ahead of trends"]
+    },
+    "market": {
+      "title": "Market Intelligence",
+      "description": "Stay ahead of the market.",
+      "highlights": ["Fear and Greed Index", "Trending Coins", "Crypto News", "Market Sentiment"]
+    }
+  },
+  "howItWorks": {
+    "title": "How It Works",
+    "subtitle": "Get started in 3 simple steps",
+    "step1Title": "Create your account",
+    "step1Desc": "Sign up in seconds and get instant access to your dashboard.",
+    "step2Title": "Connect exchange API",
+    "step2Desc": "Securely link your trading accounts with read-only API keys.",
+    "step3Title": "Track and improve your trading",
+    "step3Desc": "Monitor performance, analyze trades, and learn from top traders."
+  },
+  "leaderboard": {
+    "title": "Top Traders Leaderboard",
+    "subtitle": "Follow and learn from the best performers",
+    "rank": "Rank",
+    "trader": "Trader",
+    "pnl": "PnL",
+    "winRate": "Win Rate",
+    "volume": "Volume (M)",
+    "topPerformer": "Top Performer",
+    "viewFull": "View Full Leaderboard →"
+  },
+  "testimonials": {
+    "title": "Trusted by Traders Worldwide",
+    "subtitle": "See what our community has to say",
+    "role1": "Professional Trader",
+    "role2": "Crypto Investor",
+    "role3": "Day Trader",
+    "quote1": "MyCoinDeck has completely transformed how I track my crypto portfolio. The analytics are incredibly detailed and the interface is beautiful.",
+    "quote2": "Following top traders and analyzing their strategies has helped me improve my win rate by 25%. This platform is a game-changer.",
+    "quote3": "The real-time position monitoring and advanced analytics have given me the edge I need. Best trading dashboard I've ever used."
+  },
+  "finalCTA": {
+    "title": "Start Tracking Your Crypto Portfolio Today",
+    "description": "Join thousands of traders who are already improving their trading performance with MyCoinDeck.",
+    "getStarted": "Get Started Free",
+    "explore": "Explore Traders",
+    "noCreditCard": "No credit card required",
+    "freePlan": "Free forever plan",
+    "setupMinutes": "Setup in minutes"
+  },
+  "footer": {
+    "description": "Your complete crypto trading dashboard. Track, analyze, and improve your trading performance.",
+    "product": "Product",
+    "home": "Home",
+    "exploreTraders": "Explore Traders",
+    "markets": "Markets",
+    "leaderboard": "Leaderboard",
+    "resources": "Resources",
+    "documentation": "Documentation",
+    "apiReference": "API Reference",
+    "support": "Support",
+    "status": "Status",
+    "company": "Company",
+    "about": "About",
+    "blog": "Blog",
+    "careers": "Careers",
+    "privacyPolicy": "Privacy Policy",
+    "social": "Social",
+    "copyright": "© 2026 MyCoinDeck. All rights reserved.",
+    "terms": "Terms",
+    "privacy": "Privacy",
+    "cookies": "Cookies"
+  },
+  "mockups": {
+    "assetAllocation": "Asset Allocation",
+    "connectedExchanges": "Connected Exchanges",
+    "allSynced": "All Synced",
+    "totalBalance": "Total Balance",
+    "dailyPnl": "Daily PnL",
+    "thirtyDayRoi": "30-Day ROI",
+    "winRate": "Win Rate",
+    "socialFeed": "Social Feed",
+    "trending": "Trending",
+    "trendingTopics": "Trending Topics",
+    "latestNews": "Latest News",
+    "live": "Live",
+    "topMovers": "Top Movers",
+    "fearGreed": "Fear & Greed",
+    "greed": "Greed",
+    "marketPulse": "Market Pulse",
+    "bullish": "Bullish",
+    "bearish": "Bearish",
+    "strong": "Strong",
+    "topTraders": "Top Traders",
+    "thisWeek": "This Week",
+    "pnl": "PnL",
+    "follow": "Follow",
+    "followers": "followers",
+    "fearGreedIndex": "Fear & Greed Index",
+    "marketSentiment": "Market Sentiment",
+    "trendingCoins": "Trending Coins",
+    "latestCryptoNews": "Latest Crypto News",
+    "totalAcrossAll": "Total Across All Exchanges",
+    "today": "today",
+    "spotFutures": "Spot + Futures",
+    "perpetuals": "Perpetuals",
+    "unified": "Unified",
+    "news1": "Bitcoin ETF sees record inflows",
+    "news2": "Ethereum upgrade scheduled for Q2",
+    "news3": "Major DeFi protocol announces...",
+    "newsDetail1": "Bitcoin ETF sees $1.2B record daily inflows",
+    "newsDetail2": "Ethereum Layer 2 TVL hits new all-time high",
+    "newsDetail3": "SEC delays decision on Solana ETF application",
+    "post1": "Long BTC/USDT at $67,234 — targeting $72K. Risk/reward looks solid here.",
+    "post2": "ETH breaking above the 200 EMA on the 4H. Expecting continuation to $4K."
+  }
+}

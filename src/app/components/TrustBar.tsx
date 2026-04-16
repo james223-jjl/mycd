@@ -1,3 +1,5 @@
+'use client';
+
 import { Shuffle, EyeOff, HelpCircle } from 'lucide-react';
 import { motion } from 'motion/react';
 

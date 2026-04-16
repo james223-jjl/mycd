@@ -1,3 +1,5 @@
+'use client';
+
 import { ReactNode } from 'react';
 import { Check } from 'lucide-react';
 import { motion } from 'motion/react';

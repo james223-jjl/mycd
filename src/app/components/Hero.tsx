@@ -1,10 +1,15 @@
+'use client';
+
 import { ArrowRight, TrendingUp } from 'lucide-react';
 import { motion } from 'motion/react';
+import { useTranslations } from 'next-intl';
 import { Button } from './ui/button';
 import { MeteorEffect } from './MeteorEffect';
 
 
 export function Hero() {
+  const t = useTranslations('hero');
+
   return (
     <section className="relative overflow-hidden border-b border-border/50 pt-16 pb-20 sm:pt-32">
       {/* Hero background video */}
@@ -39,7 +44,7 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.1 }}
           >
             <TrendingUp className="h-4 w-4 text-[#AB51C5]" />
-            <span className="text-sm text-white">Track, Analyze, and Improve</span>
+            <span className="text-sm text-white">{t('title1')}</span>
           </motion.div>
 
           <div className="relative overflow-visible py-6">
@@ -65,7 +70,7 @@ export function Hero() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.2 }}
               >
-                Your Entire Trading
+                {t('title2')}
               </motion.span>
               <br />
               <motion.span
@@ -74,7 +79,7 @@ export function Hero() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.4 }}
               >
-                Performance Unified.
+                {t('title3')}
               </motion.span>
             </h1>
           </div>
@@ -85,7 +90,7 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
           >
-            Track your portfolio, analyze your trading performance, and follow successful traders — all in one place.
+            {t('description')}
           </motion.p>
 
           {/* CTA Buttons */}
@@ -96,36 +101,12 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.9 }}
           >
             <Button size="lg" className="bg-[#AB51C5] hover:bg-[#a45fbd] shadow-lg shadow-[#AB51C5]/50">
-              Connect API now
+              {t('cta')}
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
-            {/* <Button size="lg" variant="outline" className="border-border bg-secondary hover:bg-accent">
-              Explore Top Traders
-            </Button> */}
           </motion.div>
-
-          {/* Video Player - hidden for now */}
-          {/* <div className="relative mx-auto max-w-6xl">
-            <div className="absolute -inset-4 rounded-2xl bg-gradient-to-br from-[#AB51C5]/40 via-[#AB51C5]/20 to-transparent blur-3xl" />
-            <div className="relative overflow-hidden rounded-2xl border border-border/50 bg-gradient-to-br from-card/80 to-secondary/80 shadow-2xl backdrop-blur-sm">
-              <VideoPlayer />
-            </div>
-          </div> */}
-
-          {/* Exchange Logos - hidden for now */}
-          {/* <div className="mt-20">
-            <p className="mb-6 text-sm text-muted-foreground">SUPPORTED EXCHANGES</p>
-            <div className="flex flex-wrap items-center justify-center gap-8 opacity-60 grayscale">
-              <div className="text-2xl font-bold">Binance</div>
-              <div className="text-2xl font-bold">Bybit</div>
-              <div className="text-2xl font-bold">OKX</div>
-              <div className="text-2xl font-bold">Bitget</div>
-            </div>
-          </div> */}
         </div>
       </div>
     </section>
   );
 }
-
-// VideoPlayer hidden for now

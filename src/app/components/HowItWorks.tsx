@@ -1,22 +1,27 @@
+'use client';
+
 import { UserPlus, Link2, TrendingUp } from 'lucide-react';
 import { motion } from 'motion/react';
+import { useTranslations } from 'next-intl';
 
 export function HowItWorks() {
+  const t = useTranslations('howItWorks');
+
   const steps = [
     {
       icon: UserPlus,
-      title: 'Create your account',
-      description: 'Sign up in seconds and get instant access to your dashboard.',
+      title: t('step1Title'),
+      description: t('step1Desc'),
     },
     {
       icon: Link2,
-      title: 'Connect exchange API',
-      description: 'Securely link your trading accounts with read-only API keys.',
+      title: t('step2Title'),
+      description: t('step2Desc'),
     },
     {
       icon: TrendingUp,
-      title: 'Track and improve your trading',
-      description: 'Monitor performance, analyze trades, and learn from top traders.',
+      title: t('step3Title'),
+      description: t('step3Desc'),
     },
   ];
 
@@ -32,7 +37,7 @@ export function HowItWorks() {
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.5 }}
           >
-            How It Works
+            {t('title')}
           </motion.h2>
           <motion.p
             className="text-xl text-muted-foreground"
@@ -41,14 +46,14 @@ export function HowItWorks() {
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            Get started in 3 simple steps
+            {t('subtitle')}
           </motion.p>
         </div>
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
           {steps.map((step, index) => (
             <motion.div
-              key={step.title}
+              key={index}
               className="relative"
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}

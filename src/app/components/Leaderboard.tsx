@@ -1,7 +1,12 @@
+'use client';
+
 import { TrendingUp } from 'lucide-react';
 import { motion } from 'motion/react';
+import { useTranslations } from 'next-intl';
 
 export function Leaderboard() {
+  const t = useTranslations('leaderboard');
+
   const traders = [
     { rank: 1, name: 'CryptoWhale', pnl: 245678, winRate: 78.5, volume: 12.5, avatar: '/avatars/38.png' },
     { rank: 2, name: 'DiamondHands', pnl: 198432, winRate: 74.2, volume: 9.8, avatar: '/avatars/39.png' },
@@ -32,7 +37,7 @@ export function Leaderboard() {
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.5 }}
           >
-            Top Traders Leaderboard
+            {t('title')}
           </motion.h2>
           <motion.p
             className="text-xl text-muted-foreground"
@@ -41,7 +46,7 @@ export function Leaderboard() {
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            Follow and learn from the best performers
+            {t('subtitle')}
           </motion.p>
         </div>
 
@@ -60,11 +65,11 @@ export function Leaderboard() {
             viewport={{ once: true }}
             transition={{ duration: 0.4, delay: 0.25 }}
           >
-            <div>Rank</div>
-            <div>Trader</div>
-            <div className="text-right">PnL</div>
-            <div className="text-right">Win Rate</div>
-            <div className="text-right">Volume (M)</div>
+            <div>{t('rank')}</div>
+            <div>{t('trader')}</div>
+            <div className="text-right">{t('pnl')}</div>
+            <div className="text-right">{t('winRate')}</div>
+            <div className="text-right">{t('volume')}</div>
           </motion.div>
 
           {/* Table Body */}
@@ -122,7 +127,7 @@ export function Leaderboard() {
                             transition={{ delay: 0.4 + i * 0.07 }}
                           >
                             <TrendingUp className="mr-1 h-3 w-3" />
-                            Top Performer
+                            {t('topPerformer')}
                           </motion.div>
                         )}
                       </div>
@@ -189,7 +194,7 @@ export function Leaderboard() {
                         {isTopThree && (
                           <div className="flex items-center text-[10px] text-[#AB51C5]">
                             <TrendingUp className="mr-0.5 h-2.5 w-2.5" />
-                            Top Performer
+                            {t('topPerformer')}
                           </div>
                         )}
                       </div>
@@ -197,17 +202,17 @@ export function Leaderboard() {
                     {/* Stats row */}
                     <div className="ml-[66px] flex items-center gap-3 rounded-lg bg-secondary/40 px-3 py-2 text-xs">
                       <div className="flex-1">
-                        <div className="text-[10px] uppercase tracking-wider text-muted-foreground">PnL</div>
+                        <div className="text-[10px] uppercase tracking-wider text-muted-foreground">{t('pnl')}</div>
                         <div className="font-semibold text-[#22c55e]">+${trader.pnl.toLocaleString()}</div>
                       </div>
                       <div className="h-6 w-px bg-border/50" />
                       <div className="flex-1 text-center">
-                        <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Win Rate</div>
+                        <div className="text-[10px] uppercase tracking-wider text-muted-foreground">{t('winRate')}</div>
                         <div className="font-semibold">{trader.winRate}%</div>
                       </div>
                       <div className="h-6 w-px bg-border/50" />
                       <div className="flex-1 text-right">
-                        <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Volume</div>
+                        <div className="text-[10px] uppercase tracking-wider text-muted-foreground">{t('volume')}</div>
                         <div className="font-semibold">${trader.volume}M</div>
                       </div>
                     </div>
@@ -226,7 +231,7 @@ export function Leaderboard() {
           transition={{ duration: 0.4, delay: 0.8 }}
         >
           <button className="text-[#AB51C5] transition-colors hover:text-[#c76de0] hover:underline">
-            View Full Leaderboard →
+            {t('viewFull')}
           </button>
         </motion.div>
       </div>

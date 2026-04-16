@@ -1,20 +1,42 @@
+'use client';
+
 import { useState, useEffect, useRef } from 'react';
 import { Menu, X, Compass, LineChart, Trophy, LogIn, ArrowRight } from 'lucide-react';
 import * as Dialog from '@radix-ui/react-dialog';
+import { useTranslations, useLocale } from 'next-intl';
+import { useRouter, usePathname } from 'next/navigation';
+import { routing } from '@/i18n/routing';
 import { Button } from './ui/button';
 
-const navLinks = [
-  { href: '#explore', label: 'Explore Traders', icon: Compass },
-  { href: '#markets', label: 'Markets', icon: LineChart },
-  { href: '#leaderboard', label: 'Leaderboard', icon: Trophy },
-  { href: '#login', label: 'Login', icon: LogIn },
-];
+const localeLabels: Record<string, string> = {
+  en: 'English',
+  zh: '中文',
+};
 
 export function Navbar() {
+  const t = useTranslations('navbar');
+  const locale = useLocale();
+  const router = useRouter();
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [langOpen, setLangOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
   const lastScrollY = useRef(0);
+  const langRef = useRef<HTMLDivElement>(null);
+
+  const navLinks = [
+    { href: '#explore', label: t('exploreTraders'), icon: Compass },
+    { href: '#markets', label: t('markets'), icon: LineChart },
+    { href: '#leaderboard', label: t('leaderboard'), icon: Trophy },
+    { href: 'https://app.mycoindeck.com', label: t('login'), icon: LogIn },
+  ];
+
+  const switchLocale = (newLocale: string) => {
+    const pathWithoutLocale = pathname.replace(`/${locale}`, '') || '/';
+    router.push(`/${newLocale}${pathWithoutLocale}`);
+    setLangOpen(false);
+  };
 
   useEffect(() => {
     const onScroll = () => {
@@ -26,6 +48,16 @@ export function Navbar() {
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  useEffect(() => {
+    const onClick = (e: MouseEvent) => {
+      if (langRef.current && !langRef.current.contains(e.target as Node)) {
+        setLangOpen(false);
+      }
+    };
+    document.addEventListener('click', onClick);
+    return () => document.removeEventListener('click', onClick);
   }, []);
 
   return (
@@ -57,11 +89,49 @@ export function Navbar() {
                 {link.label}
               </a>
             ))}
+
+            {/* Language Switcher Dropdown */}
+            <div className="relative" ref={langRef}>
+              <button
+                onClick={() => setLangOpen(!langOpen)}
+                className="flex items-center gap-1.5 rounded-full border border-white/10 px-3 py-1.5 text-sm text-white/60 transition-colors hover:border-white/30 hover:text-white"
+              >
+                <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                </svg>
+                {localeLabels[locale] || locale.toUpperCase()}
+                <svg className={`h-3 w-3 transition-transform ${langOpen ? 'rotate-180' : ''}`} viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M3 5l3 3 3-3" />
+                </svg>
+              </button>
+              {langOpen && (
+                <div className="absolute right-0 top-full mt-2 min-w-[120px] overflow-hidden rounded-lg border border-white/10 bg-black/90 backdrop-blur-xl shadow-xl">
+                  {routing.locales.map((loc) => (
+                    <button
+                      key={loc}
+                      onClick={() => switchLocale(loc)}
+                      className={`flex w-full items-center gap-2 px-4 py-2.5 text-sm transition-colors hover:bg-white/10 ${
+                        loc === locale ? 'text-[#AB51C5]' : 'text-white/70'
+                      }`}
+                    >
+                      {localeLabels[loc] || loc.toUpperCase()}
+                      {loc === locale && (
+                        <svg className="ml-auto h-3.5 w-3.5" viewBox="0 0 16 16" fill="currentColor">
+                          <path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.75.75 0 0 1 1.06-1.06L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0z" />
+                        </svg>
+                      )}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
             <a
               href="#get-started"
               className="rounded-full border border-white/20 px-4 py-1.5 text-sm text-white transition-colors hover:bg-white/10"
             >
-              Get Started
+              {t('getStarted')}
             </a>
           </div>
 
@@ -125,6 +195,21 @@ export function Navbar() {
                       </Dialog.Close>
                     );
                   })}
+
+                  {/* Mobile Language Switcher */}
+                  {routing.locales.filter((loc) => loc !== locale).map((loc) => (
+                    <button
+                      key={loc}
+                      onClick={() => { setOpen(false); switchLocale(loc); }}
+                      className="w-full flex items-center gap-3 py-4 text-[16px] font-medium hover:bg-gradient-to-r hover:from-transparent hover:via-white/5 hover:to-transparent transition-colors"
+                    >
+                      <svg className="size-5 shrink-0 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                      </svg>
+                      <span className="font-medium text-white grow">{localeLabels[loc] || loc.toUpperCase()}</span>
+                    </button>
+                  ))}
                 </nav>
 
                 {/* Get Started button */}
@@ -132,7 +217,7 @@ export function Navbar() {
                   <Dialog.Close asChild>
                     <a href="#get-started" className="block">
                       <Button className="w-full bg-[#AB51C5] hover:bg-[#a45fbd] shadow-lg shadow-[#AB51C5]/30">
-                        Get Started
+                        {t('getStarted')}
                         <ArrowRight className="ml-2 h-4 w-4" />
                       </Button>
                     </a>

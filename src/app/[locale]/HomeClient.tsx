@@ -1,8 +1,11 @@
+'use client';
+
 import { useState, useEffect } from 'react';
-import { Navbar } from './components/Navbar';
-import { Hero } from './components/Hero';
-import { ConstellationOrb } from './components/ConstellationOrb';
-import { FeatureSection } from './components/FeatureSection';
+import { useTranslations } from 'next-intl';
+import { Navbar } from '@/app/components/Navbar';
+import { Hero } from '@/app/components/Hero';
+import { ConstellationOrb } from '@/app/components/ConstellationOrb';
+import { FeatureSection } from '@/app/components/FeatureSection';
 import {
   PortfolioMockup,
   TraderProfileMockup,
@@ -10,13 +13,13 @@ import {
   SocialFeedMockup,
   PositionsMockup,
   MarketMockup,
-} from './components/FeatureMockups';
-import { HowItWorks } from './components/HowItWorks';
-import { Leaderboard } from './components/Leaderboard';
-import { Testimonials } from './components/Testimonials';
-import { FinalCTA } from './components/FinalCTA';
-import { Footer } from './components/Footer';
-import { GalaxyBg } from './components/GalaxyBg';
+} from '@/app/components/FeatureMockups';
+import { HowItWorks } from '@/app/components/HowItWorks';
+import { Leaderboard } from '@/app/components/Leaderboard';
+import { Testimonials } from '@/app/components/Testimonials';
+import { FinalCTA } from '@/app/components/FinalCTA';
+import { Footer } from '@/app/components/Footer';
+import { GalaxyBg } from '@/app/components/GalaxyBg';
 
 function BackToTop() {
   const [visible, setVisible] = useState(false);
@@ -42,7 +45,9 @@ function BackToTop() {
   );
 }
 
-export default function App() {
+export default function HomeClient() {
+  const t = useTranslations();
+
   return (
     <div className="min-h-screen overflow-x-hidden bg-black text-white">
       <Navbar />
@@ -50,9 +55,6 @@ export default function App() {
       <main>
         {/* Hero Section */}
         <Hero />
-
-        {/* Trust Bar - hidden for now */}
-        {/* <TrustBar /> */}
 
         {/* Constellation Orb + Core Features Header */}
         <section className="relative pt-24 pb-8 overflow-hidden" style={{ background: `
@@ -65,7 +67,7 @@ export default function App() {
           <GalaxyBg />
           <div className="container relative mx-auto px-6 text-center">
             <h2 className="mb-4 mx-auto max-w-4xl bg-gradient-to-b from-white via-white/90 to-white/50 bg-clip-text text-4xl font-bold leading-tight text-transparent md:text-5xl">
-              MyCoinDeck unifies all your trading data into one powerful dashboard.
+              {t('home.coreHeading')}
             </h2>
             <ConstellationOrb />
           </div>
@@ -73,51 +75,51 @@ export default function App() {
 
         {/* Feature 1: Performance Analytics */}
         <FeatureSection
-          title="Performance Analytics"
-          description="Track PnL, win rate, ROI — with a deep breakdown of every trade to identify your strengths and weaknesses."
-          highlights={['Track PnL, win rate, ROI', 'Deep breakdown of trades', 'Identify strengths & weaknesses']}
+          title={t('features.analytics.title')}
+          description={t('features.analytics.description')}
+          highlights={[t('features.analytics.highlights.0'), t('features.analytics.highlights.1'), t('features.analytics.highlights.2')]}
           visual={<PortfolioMockup />}
         />
 
         {/* Feature 2: Unified Exchange View */}
         <FeatureSection
-          title="Unified Exchange View"
-          description="Connect your exchange API keys and automatically sync trades, positions, and PnL in real time across Binance, Bybit, OKX, and Bitget."
-          highlights={['Total Balance & Daily PnL', '30-Day ROI & Win Rate', 'Initial Asset vs Current Asset', 'Cross-exchange unified view']}
+          title={t('features.exchange.title')}
+          description={t('features.exchange.description')}
+          highlights={[t('features.exchange.highlights.0'), t('features.exchange.highlights.1'), t('features.exchange.highlights.2'), t('features.exchange.highlights.3')]}
           visual={<TraderProfileMockup />}
           reversed
         />
 
         {/* Feature 3: Get Connected */}
         <FeatureSection
-          title="Get Connected"
-          description="Post your trades and market insights. Like, reshare, and comment on other traders' posts. Build your following in the crypto trading community."
-          highlights={['Social feed — like Twitter for traders', 'Share positions & analysis', 'Follow feed from traders you trust', 'Trending posts & popular traders']}
+          title={t('features.social.title')}
+          description={t('features.social.description')}
+          highlights={[t('features.social.highlights.0'), t('features.social.highlights.1'), t('features.social.highlights.2'), t('features.social.highlights.3')]}
           visual={<AnalyticsMockup />}
         />
 
         {/* Feature 4: Discover Top Traders */}
         <FeatureSection
-          title="Discover and Follow Top Traders"
-          description="Browse profiles of real traders, view their full trading history, positions, PnL analysis, and coin allocations. Follow traders you admire and learn from their strategies."
-          highlights={['Win Rate, Total PnL, Trading Volume', 'Open Positions & Order History', 'Coin & Wallet Allocation Charts', 'Follow / Unfollow traders']}
+          title={t('features.discover.title')}
+          description={t('features.discover.description')}
+          highlights={[t('features.discover.highlights.0'), t('features.discover.highlights.1'), t('features.discover.highlights.2'), t('features.discover.highlights.3')]}
           visual={<SocialFeedMockup />}
           reversed
         />
 
         {/* Feature 5: Instant Worldwide News */}
         <FeatureSection
-          title="Instant Worldwide News"
-          description="Never miss a market-moving event."
-          highlights={['Curated market updates', 'Stay ahead of trends']}
+          title={t('features.news.title')}
+          description={t('features.news.description')}
+          highlights={[t('features.news.highlights.0'), t('features.news.highlights.1')]}
           visual={<PositionsMockup />}
         />
 
         {/* Feature 6: Market Intelligence */}
         <FeatureSection
-          title="Market Intelligence"
-          description="Stay ahead of the market."
-          highlights={['Fear and Greed Index', 'Trending Coins', 'Crypto News', 'Market Sentiment']}
+          title={t('features.market.title')}
+          description={t('features.market.description')}
+          highlights={[t('features.market.highlights.0'), t('features.market.highlights.1'), t('features.market.highlights.2'), t('features.market.highlights.3')]}
           visual={<MarketMockup />}
           reversed
         />

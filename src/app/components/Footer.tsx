@@ -1,11 +1,16 @@
+'use client';
+
 import { Twitter, Github, Linkedin, Globe } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 export function Footer() {
+  const t = useTranslations('footer');
+
   const footerLinks = {
-    Product: ['Home', 'Explore Traders', 'Markets', 'Leaderboard'],
-    Resources: ['Documentation', 'API Reference', 'Support', 'Status'],
-    Company: ['About', 'Blog', 'Careers', 'Privacy Policy'],
-    Social: ['Twitter', 'Discord', 'Telegram', 'Medium'],
+    [t('product')]: [t('home'), t('exploreTraders'), t('markets'), t('leaderboard')],
+    [t('resources')]: [t('documentation'), t('apiReference'), t('support'), t('status')],
+    [t('company')]: [t('about'), t('blog'), t('careers'), t('privacyPolicy')],
+    [t('social')]: ['Twitter', 'Discord', 'Telegram', 'Medium'],
   };
 
   return (
@@ -19,7 +24,7 @@ export function Footer() {
               <span className="text-xl font-bold uppercase" style={{ fontFamily: "'Good Timing', sans-serif" }}>MyCoinDeck</span>
             </div>
             <p className="mb-6 text-sm text-muted-foreground">
-              Your complete crypto trading dashboard. Track, analyze, and improve your trading performance.
+              {t('description')}
             </p>
 
             {/* Social Icons */}
@@ -55,17 +60,17 @@ export function Footer() {
 
         {/* Bottom Bar */}
         <div className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-border/50 pt-8 md:flex-row">
-          <div className="text-sm text-muted-foreground">© 2026 MyCoinDeck. All rights reserved.</div>
+          <div className="text-sm text-muted-foreground">{t('copyright')}</div>
 
           <div className="flex gap-6">
             <a href="#" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
-              Terms
+              {t('terms')}
             </a>
             <a href="#" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
-              Privacy
+              {t('privacy')}
             </a>
             <a href="#" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
-              Cookies
+              {t('cookies')}
             </a>
           </div>
         </div>

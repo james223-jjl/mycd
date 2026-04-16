@@ -1,4 +1,11 @@
 node_modules
-dist
 .DS_Store
-.vite
+.next
+out
+dist
+.env
+.env.local
+.env.production.local
+.env.development.local
+*.tsbuildinfo
+next-env.d.ts
